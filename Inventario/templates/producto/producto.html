@@ -1,0 +1,48 @@
+{% extends 'home.html' %} {% block content %} {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="{% static 'css/vistas.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Lista de Productos</h1>
+      <a href="{% url 'registrarProducto' %}" class="btn btn-secondary">Registrar</a>
+      
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Edicion</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ producto.idProducto }}</td>
+                    <td>{{ producto.producto }}</td>
+                    <td>{{ producto.cantidadProducto }}</td>
+                    {% if cargo_empleado != 'vendedor' %}
+                    <td>
+                    <a href="/editarProducto/{{ producto.idProducto }}" class="btn btn-info">Editar</a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+  </body>
+</html>
+
+{% endblock %}

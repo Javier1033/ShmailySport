@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* Fondo casi blanco */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.left-section,
+.right-section {
+    flex: 1;
+}
+
+.left-section {
+    text-align: center;
+}
+
+.right-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.enlace {
+    background-color: #333; /* Negro */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra */
+}
+
+.enlace form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-field {
+    width: 250px; /* Ancho aumentado */
+    padding: 12px; /* Aumento del padding */
+    margin: 10px 0; /* Espacio aumentado */
+    border: 2px solid #999; /* Borde gris */
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.submit-button {
+    width: 250px; /* Ancho aumentado */
+    padding: 12px; /* Aumento del padding */
+    margin: 10px 0; /* Espacio aumentado */
+    border: none;
+    border-radius: 5px;
+    background-color: #ffd700; /* Dorado */
+    color: #333;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #cca300; /* Dorado más oscuro */
+}
+
+#error-message {
+    color: red;
+    margin-top: 10px;
+}

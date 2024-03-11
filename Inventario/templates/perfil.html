@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil</title>
+    <link rel="stylesheet" href="../static/css/perfil.css">
+</head>
+
+<body>
+    <header>
+        <img src="../../static/img/logoShmaily.jpg" width="65" height="65"
+            style="border: 2px solid white; border-radius: 5px; margin-right: 10px" />
+        <h1>ShmailySport</h1>
+        <div class="header-content">
+            <div class="user-info">
+                <h2>Bienvenid@ {{ nombre_completo }}</h2>
+                <p>Cargo: {{ cargo_empleado }}</p>
+            </div>
+        </div>
+    </header>
+    <div class="sidebar">
+        <form action="{% url 'cerrar_sesion' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Cerrar sesión</button>
+        </form>
+        <div class="LinkG">
+            <ul class="star-list">
+                {% if cargo_empleado == 'Gerente' or cargo_empleado == 'Administrador' %}
+                <li><a href="{% url 'flujoInventario' %}" class="list-group-item">Gestión de Flujo</a></li>
+                <li><a href="{% url 'vistaSatelite' %}" class="list-group-item">Vista Satelital</a></li>
+                <li><a href="{% url 'materiaPrima' %}" class="list-group-item">Materia Prima</a></li>
+                <li><a href="{% url 'producto' %}" class="list-group-item">Productos</a></li>
+                <li><a href="{% url 'ventas' %}" class="list-group-item">Ventas</a></li>
+                <li><a href="{% url 'devolucion' %}" class="list-group-item">Devoluciones</a></li>
+                <li><a href="{% url 'empleado' %}" class="list-group-item">Gestión de Empleados</a></li>
+                <li><a href="{% url 'satelite' %}" class="list-group-item">Gestión de Satélites</a></li>
+                <li><a href="{% url 'proveedor' %}" class="list-group-item">Gestión de Proveedores</a></li>
+                <li><a href="{% url 'cliente' %}" class="list-group-item">Gestión de Clientes</a></li>
+                {% endif %}
+
+                {% if cargo_empleado == 'Vendedor' %}
+                <li><a href="{% url 'cliente' %}" class="list-group-item">Gestión de Clientes</a></li>
+                <li><a href="{% url 'producto' %}" class="list-group-item">Productos</a></li>
+                <li><a href="{% url 'ventas' %}" class="list-group-item">Ventas</a></li>
+                {% endif %}
+
+                {% if cargo_empleado == 'Auxiliar de Bodega' %}
+                <li><a href="{% url 'devolucion' %}" class="list-group-item">Devoluciones</a></li>
+                <li><a href="{% url 'producto' %}" class="list-group-item">Productos</a></li>
+                <li><a href="{% url 'vistaSatelite' %}" class="list-group-item">Vista Satelital</a></li>
+                {% endif %}
+
+                {% if cargo_empleado == 'Jefe de Bodega' %}
+                <li><a href="{% url 'flujoInventario' %}" class="list-group-item">Gestión de Flujo</a></li>
+                <li><a href="{% url 'devolucion' %}" class="list-group-item">Devoluciones</a></li>
+                <li><a href="{% url 'vistaSatelite' %}" class="list-group-item">Vista Satelital</a></li>
+                <li><a href="{% url 'materiaPrima' %}" class="list-group-item">Materia Prima</a></li>
+                <li><a href="{% url 'producto' %}" class="list-group-item">Productos</a></li>
+                <li><a href="{% url 'satelite' %}" class="list-group-item">Gestión de Satélites</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="content">
+        <div id="main-content">
+            <!-- Aquí se cargará la plantilla cliente.html -->
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Agrega jQuery para facilitar la manipulación del DOM y las solicitudes Ajax -->
+    <script>
+        $(document).ready(function () {
+            // Manejar clic en los elementos de la lista
+            $(".list-group-item").click(function (e) {
+                e.preventDefault(); // Evitar que el enlace se comporte como un enlace normal
+
+                // Obtener la URL del enlace
+                var url = $(this).attr("href");
+
+                // Realizar solicitud Ajax para cargar la otra plantilla HTML
+                $.ajax({
+                    url: url,
+                    success: function (data) {
+                        // Reemplazar el contenido principal con la nueva plantilla HTML cargada
+                        $("#main-content").html(data);
+                    },
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+{% extends 'home.html' %}
+{% block content%}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="{% static 'css/vistas.css' %}">
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Listado de Satelite</h1>
+      <a href="{% url 'registrarSatelite' %}" class="btn btn-secondary">Resgistrar Satelite</a>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Id</th>
+              <th>Documento</th>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Direccion</th>
+              <th>Correo</th>
+              <th>Celular</th>
+              <th>Fecha de Nacimiento</th>
+              <th>Ciudad</th>
+              <th>Genero</th>
+              <th>Edicion</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sa in satelite %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ sa.idSatelite }}</td>
+              <td>{{ sa.docSatelite.documento }}</td>
+              <td>{{ sa.docSatelite.nombres }}</td>
+              <td>{{ sa.docSatelite.apellidos }}</td>
+              <td>{{ sa.docSatelite.direccion }}</td>
+              <td>{{ sa.docSatelite.correo }}</td>
+              <td>{{ sa.docSatelite.celular }}</td>
+              <td>{{ sa.docSatelite.fechaNac }}</td>
+              <td>{{ sa.docSatelite.ciudadPersona }}</td>
+              <td>{{ sa.docSatelite.sexo }}</td>
+              <td>
+                <a
+                  href="/editarSatelite/{{ sa.idSatelite }}"
+                  class="btn btn-info"
+                  >Editar</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
+
+{% endblock %}

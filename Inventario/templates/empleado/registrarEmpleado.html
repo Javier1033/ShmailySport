@@ -1,0 +1,83 @@
+{% extends 'home.html' %}
+{% block content %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Emlpeados</title>
+    <link rel="stylesheet" href="{% static 'css/fomrsCompleto.css' %}">
+  </head>
+  <body>
+    <div class="container">
+      <h2>Registrar Empleado</h2>
+      <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <label for="documento">Documento de identidad</label>
+            {{ form.documento }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="nombres">Nombres</label>
+            {{ form.nombres }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="apellidos">Apellidos</label>
+            {{ form.apellidos }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="direccion">Direccion</label>
+            {{ form.direccion }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="correo">Correo</label>
+            {{ form.correo }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="celular">Celular</label>
+            {{ form.celular }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="fechaNac">Fecha de Nacimiento</label>
+            {{ form.fechaNac }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="ciudadPersona">Ciudad</label>
+            {{ form.ciudadPersona }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="sexo">Genero</label>
+            {{ form.sexo }}
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <label for="arlEmpleado">Arl del empleado</label>
+            {{ form.arlEmpleado }}
+            <small class="text-muted">O ingrese una nueva ARL</small>
+            {{ form.nueva_arl }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="epsEmpleado">Eps del empleado</label>
+            {{ form.epsEmpleado }}
+            <small class="text-muted">O ingrese una nueva EPS</small>
+            {{ form.nueva_eps }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="cargo">Cargo del empleado</label>
+            {{ form.cargo }}
+            <small class="text-muted">O ingrese un nuevo Cargo</small>
+            {{ form.nuevo_cargo }}
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Registrar</button>
+      </form>
+    </div>
+  </body>
+</html>
+
+{% endblock %}

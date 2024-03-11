@@ -1,0 +1,57 @@
+/* forms2.css */
+
+html, body {
+    height: 100%;
+    display: flex;
+    background-color: #f9f9f9;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    width: 100%;
+    padding: 10px 0;
+    background-color: #f1d02a;
+    border-radius: 10px;
+    margin-bottom: 20px; /* Agrega margen inferior para separar el encabezado del formulario */
+    display: flex; /* Agrega display flex para centrar los botones */
+    justify-content: center;
+}
+
+header button {
+    margin-right: 10px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+.btn-primary {
+    background-color: #f1d02a;
+    border-color: #000000;
+}
+
+.btn-primary:hover {
+    background-color: #ecd874;
+    border-color: #ecd874;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}

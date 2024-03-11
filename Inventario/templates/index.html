@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShamilySport</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+
+<body class="index-page">
+    <div class="container">
+        <div class="left-section">
+            <h1>Bienvenidos a Shmaily Sport</h1>
+            <p></p>
+        </div>
+        <div class="right-section">
+            <div class="enlace">
+                <form method="post" action="{% url 'index' %}" onsubmit="return mostrarMensajeError();">
+                    {% csrf_token %}
+                    <input type="text" name="documento" placeholder="Documento" class="input-field">
+                    <input type="password" name="contrasena" placeholder="Contraseña" class="input-field">
+                    <button type="submit" class="submit-button">Iniciar sesión</button>
+                </form>
+                <div id="error-message" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function mostrarMensajeError() {
+            var doc_empleado = document.getElementsByName('documento')[0].value;
+
+            if (!(/^\d+$/.test(doc_empleado))) {
+                var errorMessage = document.getElementById('error-message');
+                errorMessage.innerText = 'Credenciales Incorrectas vuelve a intentarlo.';
+                errorMessage.style.display = 'block';
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+
+</html>
+

@@ -1,0 +1,28 @@
+{% extends 'home.html' %}
+{% block content %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Clientes</title>
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+  </head>
+  <body>
+    <div class="container">
+      <h2>Registrar Cliente</h2>
+      <form method="post" class="cbp-mc-form">
+        {% csrf_token %} 
+        {{ form.as_p }}
+        <div class="cbp-mc-submit-wrap">
+          <input class="cbp-mc-submit btn brn-primary" type="submit" value="Registrar" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'home.html' %}
+{% block content %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Empleados</title>
+    <link rel="stylesheet" href="{% static 'css/vistas.css' %}">
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Listado de Empleados</h1>
+      <a href="{% url 'registrarEmpleado' %}" class="btn btn-secondary">Resgistrar Empleado</a>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Id</th>
+              <th>Documento</th>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Direccion</th>
+              <th>Correo</th>
+              <th>Celular</th>
+              <th>Fecha de Nacimiento</th>
+              <th>Ciudad</th>
+              <th>Genero</th>
+              <th>Arl</th>
+              <th>Eps</th>
+              <th>Cargo</th>
+              <th>Edicion</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for em in empleados %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ em.idEmpleado }}</td>
+              <td>{{ em.docEmpleado.documento }}</td>
+              <td>{{ em.docEmpleado.nombres }}</td>
+              <td>{{ em.docEmpleado.apellidos }}</td>
+              <td>{{ em.docEmpleado.direccion }}</td>
+              <td>{{ em.docEmpleado.correo }}</td>
+              <td>{{ em.docEmpleado.celular }}</td>
+              <td>{{ em.docEmpleado.fechaNac }}</td>
+              <td>{{ em.docEmpleado.ciudadPersona }}</td>
+              <td>{{ em.docEmpleado.sexo }}</td>
+              <td>{{ em.arlEmpleado.arl }}</td>
+              <td>{{ em.epsEmpleado.eps }}</td>
+              <td>{{ em.cargo.cargo }}</td>
+              <td>
+                <a
+                  href="/editarEmpleado/{{ em.idEmpleado }}"
+                  class="btn btn-info"
+                  >Editar</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
+
+{% endblock %}

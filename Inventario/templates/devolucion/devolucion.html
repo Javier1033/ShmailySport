@@ -1,0 +1,61 @@
+{% extends 'home.html' %}
+{% block content %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lista de Productos</title>
+        <link rel="stylesheet" href="{% static 'css/vistas.css' %}">
+    </head>
+    <body>
+        <div class="container">
+        <h1>Listado de Devoluciones</h1>
+        <a href="{% url 'registrarDevolucion' %}" class="btn btn-secondary">Resgistrar Devolucion</a>
+            
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Id</th>
+                            <th>Empleado</th>
+                            <th>Satelite</th>
+                            <th>Proveedor</th>
+                            <th>Producto</th>
+                            <th>Material</th>
+                            <th>Flujo</th>
+                            <th>Motivo</th>
+                            <th>Cantidad</th>
+                            <th>Fecha</th>
+                            <th>Edicion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dev in devolucion %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ dev.idDevolucion }}</td>
+                                    <td>{{ dev.devoEmpleado.docEmpleado }}</td>
+                                    <td>{{ dev.devoSatelite.docSatelite }}</td>
+                                    <td>{{ dev.devoProveedor.docProveedor }}</td>
+                                    <td>{{ dev.devoProducto.producto }}</td>
+                                    <td>{{ dev.devoMaterial.material }}</td>
+                                    <td>{{ dev.flujo }}</td>
+                                    <td>{{ dev.motivo }}</td>
+                                    <td>{{ dev.cantidadDevo }}</td>
+                                    <td>{{ dev.fechaDevolucion }}</td>
+                                    <td><a href="/editarDevolucion/{{ dev.idDevolucion }}" class="btn btn-info">Editar</a></td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
+
+{% endblock %}

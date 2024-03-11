@@ -1,0 +1,63 @@
+{% extends 'home.html' %}
+{% block content %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <link rel="stylesheet" href="{% static 'css/vistas.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Listado de Clientes</h1>
+        <a href="{% url 'registrarCliente' %}" class="btn btn-secondary">Resgistrar Cliente</a>
+        
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Id</th>
+                        <th>Documento</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Direccion</th>
+                        <th>Correo</th>
+                        <th>Celular</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Ciudad</th>
+                        <th>Genero</th>
+                        <th>Edicion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cl in clientes %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ cl.idCliente }}</td>
+                        <td>{{ cl.docCliente.documento }}</td>
+                        <td>{{ cl.docCliente.nombres }}</td>
+                        <td>{{ cl.docCliente.apellidos }}</td>
+                        <td>{{ cl.docCliente.direccion }}</td>
+                        <td>{{ cl.docCliente.correo }}</td>
+                        <td>{{ cl.docCliente.celular }}</td>
+                        <td>{{ cl.docCliente.fechaNac }}</td>
+                        <td>{{ cl.docCliente.ciudadPersona }}</td>
+                        <td>{{ cl.docCliente.sexo }}</td>
+                        <td><a href="/editarCliente/{{ cl.idCliente }}" class="btn btn-info">Editar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock %}

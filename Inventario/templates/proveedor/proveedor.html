@@ -1,0 +1,63 @@
+{% extends 'home.html' %}
+{% block content %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="{% static 'css/vistas.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Listado de Proveedores</h1>
+        <a href="{% url 'registrarProveedor' %}" class="btn btn-secondary">Resgistrar Proveedor</a>
+        
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Id</th>
+                        <th>Documento</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Direccion</th>
+                        <th>Correo</th>
+                        <th>Celular</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Ciudad</th>
+                        <th>Genero</th>
+                        <th>Edicion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pv in proveedores %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ pv.idProveedor }}</td>
+                        <td>{{ pv.docProveedor.documento }}</td>
+                        <td>{{ pv.docProveedor.nombres }}</td>
+                        <td>{{ pv.docProveedor.apellidos }}</td>
+                        <td>{{ pv.docProveedor.direccion }}</td>
+                        <td>{{ pv.docProveedor.correo }}</td>
+                        <td>{{ pv.docProveedor.celular }}</td>
+                        <td>{{ pv.docProveedor.fechaNac }}</td>
+                        <td>{{ pv.docProveedor.ciudadPersona }}</td>
+                        <td>{{ pv.docProveedor.sexo }}</td>
+                        <td><a href="/editarProveedor/{{ pv.idProveedor }}" class="btn btn-info">Editar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock %}

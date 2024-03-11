@@ -1,0 +1,54 @@
+/* formulario.css */
+
+.container {
+    max-width: 100%; /* Ajusta el ancho máximo del contenedor según sea necesario */
+    margin: 0 auto; /* Centra el contenedor horizontalmente en la página */
+    padding: 12px; /* Agrega espacio alrededor del contenido dentro del contenedor */
+}
+
+h1 {
+    text-align: center; /* Centra el título h1 */
+    font-size: 24px; /* Tamaño de fuente del título h1 */
+    margin-bottom: 20px; /* Agrega espacio debajo del título h1 */
+}
+
+.btn-secondary {
+    display: block; /* Hace que el botón sea de ancho completo */
+    width: 100%; /* Hace que el botón ocupe todo el ancho del contenedor */
+    max-width: 400px; /* Limita el ancho máximo del botón según sea necesario */
+    margin: 0 auto 20px; /* Centra el botón horizontalmente y agrega espacio debajo */
+}
+
+.table-responsive {
+    overflow-x: auto; /* Permite desplazarse horizontalmente si el contenido de la tabla es más ancho que el contenedor */
+}
+
+.table {
+    width: 100%; /* Hace que la tabla ocupe todo el ancho del contenedor */
+    border-collapse: collapse; /* Fusiona los bordes de las celdas de la tabla */
+}
+
+.table th,
+.table td {
+    padding: 8px; /* Agrega espacio interno dentro de las celdas de la tabla */
+    text-align: left; /* Alinea el texto a la izquierda dentro de las celdas de la tabla */
+    border-bottom: 1px solid #f1d02a; /* Agrega un borde inferior a cada fila de la tabla */
+}
+
+.table th {
+    background-color: #f1d02a; /* Color de fondo para las celdas de encabezado de la tabla */
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #ecd874; /* Agrega un color de fondo alternativo para filas impares en la tabla */
+}
+
+.alert {
+    margin-bottom: 20px; /* Agrega espacio debajo de las alertas */
+}
+
+.btn-info {
+    display: inline-block; /* Hace que el botón sea de ancho auto */
+    margin-right: 5px; /* Agrega un margen derecho para separar los botones */
+}
+

@@ -1,0 +1,27 @@
+{% extends 'home.html' %} 
+{% block content %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Devolución</title>
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+  </head>
+  <body>
+    <div class="container">
+        <h2>Editar Devolución</h2>
+        <form method="post" class="cbp-mc-form">
+        {% csrf_token %} {{ form.as_p }}
+        <div class="cbp-mc-submit-wrap">
+            <input class="cbp-mc-submit btn brn-primary" type="submit">Guardar cambios</input>
+        </div>
+        </form>
+    </div>
+  </body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'home.html' %}
+
+{% block content%}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Clientes</title>
+    
+  </head>
+  <body>
+    <header>
+      <img
+        src="../../static/img/logoShmaily.jpg"
+        width="50"
+        height="50"
+        style="border: 2px solid white; border-radius: 5px; margin-right: 10px"
+      />
+      <h1>ShmailySport</h1>
+    </header>
+    <div class="container">
+      <h2>Registrar Satelite</h2>
+      <form method="post" class="cbp-mc-form">
+        {% csrf_token %} {{ form.as_p }}
+        <div class="cbp-mc-submit-wrap">
+          <input class="cbp-mc-submit btn btn-primary" type="submit" value="Registrar" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
+
+{% endblock %}

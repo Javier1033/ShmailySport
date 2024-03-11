@@ -1,0 +1,88 @@
+{% extends 'home.html' %}
+{% block content %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Devoluciones</title>
+    <link rel="stylesheet" href="{% static 'css/forms2.css' %}">
+</head>
+<body>
+    <div id="form-container" class="container mt-4">
+        <header class="d-flex justify-content-between align-items-center p-3 bg-dark text-white">
+            <div>
+                <button id="producto-dev-btn" class="btn btn-primary">Devolución de Productos</button>
+                <button id="material-dev-btn" class="btn btn-primary">Devolución de Material</button>
+            </div>
+        </header>
+
+        <form id="dev-form" method="post" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <!-- Campos comunes a ambos formularios -->
+            <div class="mb-3">
+                <label for="devoEmpleado" class="form-label">Empleado</label>
+                {{ form.devoEmpleado }}
+            </div>
+            <div id="producto-dev-fields" class="mb-3 hidden">
+                <label for="devoSatelite" class="form-label">Satelite</label>
+                {{ form.devoSatelite }}
+                <label for="devoProducto" class="form-label">Producto</label>
+                {{ form.devoProducto }}
+            </div>
+            <div id="material-dev-fields" class="mb-3 hidden">
+                <label for="devoProveedor" class="form-label">Proveedor</label>
+                {{ form.devoProveedor }}
+                <label for="devoMaterial" class="form-label">Material</label>
+                {{ form.devoMaterial }}
+            </div>
+            <div class="mb-3">
+                <label for="flujo" class="form-label">Flujo</label>
+                {{ form.flujo }}
+            </div>
+            <div class="mb-3">
+                <label for="motivo" class="form-label">Motivo</label>
+                <input type="text" class="form-control" id="motivo" name="motivo">
+            </div>
+            <div class="mb-3">
+                <label for="cantidadDevo" class="form-label">Cantidad</label>
+                <input type="number" class="form-control" id="cantidadDevo" name="cantidadDevo">
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            const productoBtn = document.getElementById("producto-dev-btn");
+            const materialBtn = document.getElementById("material-dev-btn");
+            
+            if (!productoBtn.checked && !materialBtn.checked) {
+                alert("Por favor, seleccione un tipo de devolución.");
+                return false; // Evita que se envíe el formulario si no se ha seleccionado ningún botón
+            }
+            return true;
+        }
+        const productoDevFields = document.getElementById("producto-dev-fields");
+        const materialDevFields = document.getElementById("material-dev-fields");
+
+        const productoDevBtn = document.getElementById("producto-dev-btn");
+        const materialDevBtn = document.getElementById("material-dev-btn");
+
+        productoDevBtn.addEventListener("click", () => {
+            productoDevFields.classList.remove("hidden");
+            materialDevFields.classList.add("hidden");
+        });
+
+        materialDevBtn.addEventListener("click", () => {
+            productoDevFields.classList.add("hidden");
+            materialDevFields.classList.remove("hidden");
+        });
+    </script>
+</body>
+</html>
+
+{% endblock %}

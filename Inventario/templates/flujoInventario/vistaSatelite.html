@@ -1,0 +1,62 @@
+{% extends 'home.html' %}
+{% block content %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cortes de Satélite</title>
+    <link rel="stylesheet" href="{% static 'css/vistaSatelite.css' %}">
+</head>
+<body>
+    <h1>Cortes de Satélite</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="satelite">Selecciona un satélite:</label>
+        <select name="satelite" id="satelite">
+            <option value="" selected disabled>Selecciona un satélite</option>
+            {% for satelite in satelites %}
+            <option value="{{ satelite.idSatelite }}">
+                {{ satelite.docSatelite.apellidos }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Mostrar Cortes</button>
+    </form>
+
+    {% if satelite_seleccionado %}
+    <h2>Satélite seleccionado: {{ satelite_seleccionado.docSatelite.apellidos }}</h2>
+    {% endif %}
+
+    {% if cortes_entregados %}
+    <h3>Cortes Entregados:</h3>
+    <ul>
+        {% for corte in cortes_entregados %}
+            <li>
+                Corte {{ corte.idCorte }}: Material: {{ corte.materialCorte.material }} - Producto Final: {{ corte.productoCorte.producto }} (Entregado)
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No hay cortes entregados vinculados a este satélite.</p>
+    {% endif %}
+
+    {% if cortes_no_entregados %}
+    <h3>Cortes No Entregados:</h3>
+    <ul>
+        {% for corte in cortes_no_entregados %}
+            <li>
+                Corte {{ corte.idCorte }}: Material: {{ corte.materialCorte.material }} - Producto Final: {{ corte.productoCorte.producto }} (No entregado) <a href="{% url 'marcar_entregado' corte.idCorte %}" class="mark-entregado">Marcar como entregado</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No hay cortes no entregados vinculados a este satélite.</p>
+    {% endif %}
+</body>
+</html>
+
+{% endblock %}

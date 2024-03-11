@@ -1,0 +1,30 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edición de Clientes</title>
+  </head>
+  <body>
+    <h1>Editar Flujo de Inventario</h1>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }} {{ formset.management_form }}
+      <table>
+        {% for form in formset %}
+        <tr>
+          {% for field in form.visible_fields %}
+          <td>{{ field.errors }} {{ field }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+      <button type="submit">Guardar cambios</button>
+    </form>
+  </body>
+</html>
+
+{% endblock %}

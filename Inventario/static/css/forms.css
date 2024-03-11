@@ -1,0 +1,53 @@
+/* formulario.css */
+
+
+.container {
+    max-width: 400px; /* Establece un ancho máximo para el contenedor del formulario */
+    width: 100%; /* Hace que el contenedor del formulario ocupe todo el ancho disponible */
+    padding: 20px; /* Agrega espacio alrededor del contenido dentro del contenedor */
+    background-color: #f9f9f9; /* Color de fondo para el contenedor del formulario */
+    border-radius: 10px; /* Agrega esquinas redondeadas al contenedor del formulario */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Agrega una sombra al contenedor del formulario */
+}
+
+h2 {
+    text-align: center; /* Centra el título h2 */
+    font-size: 28px; /* Tamaño de fuente del título h2 */
+    margin-bottom: 30px; /* Agrega espacio debajo del título h2 */
+    color: #f1d02a; /* Color dorado */
+}
+
+.cbp-mc-form {
+    display: flex; /* Utiliza flexbox para alinear elementos */
+    flex-direction: column; /* Alinea los elementos en una columna */
+}
+
+.cbp-mc-form input[type="text"],
+.cbp-mc-form input[type="email"] {
+    padding: 10px; /* Agrega espacio interno dentro de los campos de entrada */
+    margin-bottom: 20px; /* Agrega espacio debajo de los campos de entrada */
+    border: 1px solid #f1d02a; /* Agrega un borde dorado a los campos de entrada */
+    border-radius: 5px; /* Agrega esquinas redondeadas a los campos de entrada */
+}
+
+.cbp-mc-submit-wrap {
+    margin-top: 30px; /* Agrega espacio arriba del botón */
+}
+
+.cbp-mc-submit {
+    display: block; /* Hace que el botón sea de ancho completo */
+    width: 100%; /* Hace que el botón ocupe todo el ancho del contenedor */
+    padding: 15px; /* Agrega espacio interno dentro del botón */
+    background-color: #f1d02a; /* Color de fondo dorado para el botón */
+    border: none; /* Elimina el borde del botón */
+    color: #fff; /* Color del texto del botón */
+    font-size: 18px; /* Tamaño de fuente del botón */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    border-radius: 5px; /* Agrega esquinas redondeadas al botón */
+    transition: background-color 0.3s; /* Transición suave del color de fondo */
+}
+
+.cbp-mc-submit:hover {
+    background-color: #ecd874; /* Color de fondo dorado más claro al pasar sobre el botón */
+}
+

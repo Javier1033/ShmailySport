@@ -1,0 +1,68 @@
+{% extends 'home.html' %}
+{% block content %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="{% static 'css/vistas.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Listado de Flujos</h1>
+        <a href="{% url 'registroFlujo' %}" class="btn btn-secondary">Resgistrar Flujo</a>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Id</th>
+                        <th>Empleado</th>
+                        <th>Proveedor</th>
+                        <th>Material</th>
+                        <th>Satelite</th>
+                        <th>Producto</th>
+                        <th>Corte</th>
+                        <th>Insumos</th>
+                        <th>Flujo</th>
+                        <th>Cantidad</th>
+                        <th>Fecha</th>
+                        <th>Edicion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fli in flujoInventario %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ fli.idComprovante }}</td>
+                                <td>{{ fli.docEmpleado.docEmpleado }}</td>
+                                <td>{{ fli.proveedorFlujo.docProveedor }}</td>
+                                <td>{{ fli.materialFlu.material }}</td>
+                                <td>{{ fli.flujoSatelite.docSatelite }}</td>
+                                <td>{{ fli.flujoProducto.producto }}</td>
+                                <td>{{ fli.flujoCorte.idCorte }}</td>
+                                <td>
+                                    {% for insumo in fli.insumos.all %}
+                                        {{ insumo.material }}{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ fli.flujo }}</td>
+                                <td>{{ fli.cantidadFlujo }}</td>
+                                <td>{{ fli.fechaFlujo }}</td>
+                                <td><a href="/editarFlujo/{{ fli.idComprovante }}" class="btn btn-info">Editar</a></td>
+                            </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
+
+{% endblock %}

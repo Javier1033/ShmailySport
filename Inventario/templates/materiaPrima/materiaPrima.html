@@ -1,0 +1,51 @@
+{% extends 'home.html' %} 
+{% block content %} 
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Materias Primas</title>
+    <link rel="stylesheet" href="{% static 'css/vistas.css' %}" />
+  </head>
+<body>
+    <div class="container">
+		<h1>Lista de Materias Primas</h1>
+		<a href="{% url 'registrarMaterial' %}" class="btn btn-secondary">Registrar</a>
+
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+					<th>#</th>
+					<th>ID</th>
+					<th>Material</th>
+					<th>Cantidad</th>
+					<th>Medida</th>
+					<th>Edicion</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for materia_prima in materias_primas %}
+						<tr>
+							<td>{{ forloop.counter }}</td>
+							<td>{{ materia_prima.idMaterial }}</td>
+							<td>{{ materia_prima.material }}</td>
+							<td>{{ materia_prima.cantidadMaterial }}</td>
+							<td>{{ materia_prima.get_medida_display }}</td>
+							<td>
+								<a href="/editarMaterial/{{ materia_prima.idMaterial }}" class="btn btn-info">Editar</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+    </div>
+</body>
+</html>
+
+{% endblock %}
