@@ -12,7 +12,10 @@
   <body>
     <h1>Registrar Nuevo Corte</h1>
     <form method="POST">
-      {% csrf_token %} {{ form.as_p }}
+      {% csrf_token %}
+      <table>
+        {{ form.as_table }}
+      </table>
       <button type="submit">Registrar Corte</button>
       <a href="{% url 'registroFlujo' %}" class="btn btn-info">Volver</a>
     </form>

@@ -14,6 +14,10 @@
     <body>
         <div class="container">
         <h1>Listado de Devoluciones</h1>
+
+        <input type="text" id="searchInput" placeholder="Buscar...">
+        <button onclick="searchFunction()">Buscar</button>
+      
         <a href="{% url 'registrarDevolucion' %}" class="btn btn-secondary">Resgistrar Devolucion</a>
             
             <div class="table-responsive">
@@ -55,6 +59,32 @@
                 </table>
             </div>
         </div>
+        <script>
+            function searchFunction() {
+              // Obtener el valor del campo de búsqueda
+              var input, filter, table, tr, td, i, txtValue;
+              input = document.getElementById("searchInput");
+              filter = input.value.toUpperCase();
+              table = document.querySelector(".table");
+              tr = table.getElementsByTagName("tr");
+            
+              // Iterar sobre todas las filas y ocultar las que no coincidan con la búsqueda
+              for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td");
+                for (var j = 0; j < td.length; j++) {
+                  if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                      tr[i].style.display = "";
+                      break;
+                    } else {
+                      tr[i].style.display = "none";
+                    }
+                  }
+                }
+              }
+            }
+        </script>
     </body>
 </html>
 

@@ -11,8 +11,10 @@
   <body>
     <h1>Editar Empleado</h1>
     <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-
+      {% csrf_token %}
+      <table>
+        {{ form.as_table }}
+      </table>
       <input type="submit" class="btn btn-primary" value="Guardar cambios" />
     </form>
   </body>

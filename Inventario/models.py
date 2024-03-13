@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 class Arl(models.Model):
     idArl = models.AutoField(primary_key=True)
     arl = models.CharField(max_length=30)
+    activo = models.BooleanField(default=True)
     
     def __str__(self):
         txt = "{0}, {1}"
@@ -14,6 +15,7 @@ class Arl(models.Model):
 class Eps(models.Model):
     idEps = models.AutoField(primary_key=True)
     eps = models.CharField(max_length=30)
+    activo = models.BooleanField(default=True)
     
     def __str__(self):
         txt = "{0}, {1}"
@@ -22,6 +24,7 @@ class Eps(models.Model):
 class Ciudad(models.Model):
     idCiudad = models.AutoField(primary_key=True)
     ciudad = models.CharField(max_length=30)
+    activo = models.BooleanField(default=True)
     
     def __str__(self):
         txt = "{0}, {1}"
@@ -30,15 +33,10 @@ class Ciudad(models.Model):
 class Cargo(models.Model):
     idCargo = models.AutoField(primary_key=True)
     cargo = models.CharField(max_length=30)
-    contraseña = models.CharField(max_length=30, default='')
+    activo = models.BooleanField(default=True)
 
     def __str__(self):
         return self.cargo
-
-    def save(self, *args, **kwargs):
-        if not self.idCargo:  
-            self.contraseña = make_password(self.contraseña)  
-        super().save(*args, **kwargs)
 
 class MateriaPrima(models.Model):
     idMaterial = models.AutoField(primary_key=True)
@@ -50,6 +48,7 @@ class MateriaPrima(models.Model):
         ('u','unidaddes')
     ]
     medida = models.CharField(max_length=1, choices=medidas, default='m')
+    activo = models.BooleanField(default=True)
     
     def __str__(self):
         txt = "{0}, {1} en stok: {2} {3}"
@@ -59,6 +58,7 @@ class Producto(models.Model):
     idProducto = models.AutoField(primary_key=True)
     producto = models.CharField(max_length=30)
     cantidadProducto = models.PositiveIntegerField(default=0)
+    activo = models.BooleanField(default=True)
     
     def __str__(self):
         txt = "{0}, {1} en stok: {2} unidades"
@@ -120,10 +120,16 @@ class Empleado(models.Model):
     epsEmpleado = models.ForeignKey(Eps, null=False, blank=False, on_delete=models.CASCADE)
     cargo = models.ForeignKey(Cargo, null=False, blank=False, on_delete=models.CASCADE)
     activo = models.BooleanField(default=True)
-    
+    contraseña = models.CharField(max_length=30, default='')
+
     def __str__(self) -> str:
         txt = "{0}, {1}, ({2}, {3})"
         return txt.format(self.idEmpleado, self.docEmpleado.apellidos, self.arlEmpleado.arl, self.epsEmpleado.eps)
+    
+    def save(self, *args, **kwargs):
+        if not self.idEmpleado:  
+            self.contraseña = make_password(self.contraseña)  
+        super().save(*args, **kwargs)
     
 class Corte(models.Model):
     idCorte = models.AutoField(primary_key=True)
@@ -161,7 +167,7 @@ class FlujoInventario(models.Model):
     ]
     flujo = models.CharField(max_length=20, choices=flujos, default='entrada')
     fechaFlujo = models.DateTimeField(auto_now_add=True)
-    cantidadFlujo = models.FloatField(null=False, blank=False)
+    cantidadFlujo = models.FloatField(null=True, blank=True)
     
     def __str__(self):
         txt = "{0}, {1}, {2}: {3} {4}"

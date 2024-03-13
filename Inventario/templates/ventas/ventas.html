@@ -1,55 +1,84 @@
-{% extends 'home.html' %}
-{% block content %}
-
-{% load static %}
+{% extends 'home.html' %} {% block content %} {% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lista de Ventas</title>
-    <link rel="stylesheet" href="{% static 'css/vistas.css' %}">
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'css/vistas.css' %}" />
+  </head>
+  <body>
     <div class="container">
-        <h1>Listado de Ventas</h1>
-        <a href="{% url 'registrarVenta' %}" class="btn btn-secondary">Resgistrar Venta</a>
-        
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Id</th>
-                        <th>Vendedor</th>
-                        <th>Cliente</th>
-                        <th>Producto</th>
-                        <th>Flujo</th>
-                        <th>Cantidad</th>
-                        <th>Fecha</th>
-                        <th>Edicion</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for ven in ventas %}
-                        <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ ven.idComprovante }}</td>
-                            <td>{{ ven.docEmpleado.docEmpleado }}</td>
-                            <td>{{ ven.flujoCliente.docCliente }}</td>
-                            <td>{{ ven.flujoProducto.producto }}</td>
-                            <td>{{ ven.flujo }}</td>
-                            <td>{{ ven.cantidadFlujo }}</td>
-                            <td>{{ ven.fechaFlujo }}</td>
-                            <td><a href="/editarVenta/{{ ven.idComprovante }}" class="btn btn-info">Editar</a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+      <h1>Listado de Ventas</h1>
+
+      <input type="text" id="searchInput" placeholder="Buscar...">
+      <button onclick="searchFunction()">Buscar</button>
+      
+      <a href="{% url 'registrarVenta' %}" class="btn btn-secondary" >Resgistrar Venta</a>
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Id</th>
+              <th>Vendedor</th>
+              <th>Cliente</th>
+              <th>Producto</th>
+              <th>Flujo</th>
+              <th>Cantidad</th>
+              <th>Fecha</th>
+              <th>Edicion</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ven in ventas %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ ven.idComprovante }}</td>
+              <td>{{ ven.docEmpleado.docEmpleado }}</td>
+              <td>{{ ven.flujoCliente.docCliente }}</td>
+              <td>{{ ven.flujoProducto.producto }}</td>
+              <td>{{ ven.flujo }}</td>
+              <td>{{ ven.cantidadFlujo }}</td>
+              <td>{{ ven.fechaFlujo }}</td>
+              <td>
+                <a href="/editarVenta/{{ ven.idComprovante }}" class="btn btn-info">Editar</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-</body>
+    <script>
+        function searchFunction() {
+          // Obtener el valor del campo de búsqueda
+          var input, filter, table, tr, td, i, txtValue;
+          input = document.getElementById("searchInput");
+          filter = input.value.toUpperCase();
+          table = document.querySelector(".table");
+          tr = table.getElementsByTagName("tr");
+        
+          // Iterar sobre todas las filas y ocultar las que no coincidan con la búsqueda
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            for (var j = 0; j < td.length; j++) {
+              if (td[j]) {
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  tr[i].style.display = "";
+                  break;
+                } else {
+                  tr[i].style.display = "none";
+                }
+              }
+            }
+          }
+        }
+    </script>
+  </body>
 </html>
 
 {% endblock %}

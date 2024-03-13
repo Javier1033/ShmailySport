@@ -16,8 +16,16 @@
 <body>
     <div class="container">
         <h1>Listado de Clientes</h1>
+
+        <!-- Agregar el campo de búsqueda -->
+		<div class="form-group">
+			<input type="text" id="inputBusqueda" class="form-control" placeholder="Buscar...">
+		</div>
+
         <a href="{% url 'registrarCliente' %}" class="btn btn-secondary">Resgistrar Cliente</a>
-        
+        <button id="btnMostrarActivos" class="btn btn-primary">Mostrar Activos</button>
+		<button id="btnMostrarInactivos" class="btn btn-warning">Mostrar Inactivos</button>
+
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -37,8 +45,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for cl in clientes %}
-                    <tr>
+                    {% for cl in clientes_activos %}
+                    <tr class="fila-activa">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ cl.idCliente }}</td>
+                        <td>{{ cl.docCliente.documento }}</td>
+                        <td>{{ cl.docCliente.nombres }}</td>
+                        <td>{{ cl.docCliente.apellidos }}</td>
+                        <td>{{ cl.docCliente.direccion }}</td>
+                        <td>{{ cl.docCliente.correo }}</td>
+                        <td>{{ cl.docCliente.celular }}</td>
+                        <td>{{ cl.docCliente.fechaNac }}</td>
+                        <td>{{ cl.docCliente.ciudadPersona }}</td>
+                        <td>{{ cl.docCliente.sexo }}</td>
+                        <td><a href="/editarCliente/{{ cl.idCliente }}" class="btn btn-info">Editar</a></td>
+                    </tr>
+                    {% endfor %}
+
+                    {% for cl in clientes_inactivos %}
+                    <tr class="fila-inactiva" style="display: none;">
                         <td>{{ forloop.counter }}</td>
                         <td>{{ cl.idCliente }}</td>
                         <td>{{ cl.docCliente.documento }}</td>
@@ -57,6 +82,56 @@
             </table>
         </div>
     </div>
+    <script>
+		document.addEventListener("DOMContentLoaded", function() {
+			var btnMostrarActivos = document.getElementById("btnMostrarActivos");
+			var btnMostrarInactivos = document.getElementById("btnMostrarInactivos");
+			var filasActivas = document.querySelectorAll(".fila-activa");
+			var filasInactivas = document.querySelectorAll(".fila-inactiva");
+			var inputBusqueda = document.getElementById("inputBusqueda");
+	
+			// Evento de escucha para el botón de mostrar activos
+			btnMostrarActivos.addEventListener("click", function() {
+				filasActivas.forEach(function(fila) {
+					fila.style.display = "table-row";
+				});
+				filasInactivas.forEach(function(fila) {
+					fila.style.display = "none";
+				});
+			});
+	
+			// Evento de escucha para el botón de mostrar inactivos
+			btnMostrarInactivos.addEventListener("click", function() {
+				filasActivas.forEach(function(fila) {
+					fila.style.display = "none";
+				});
+				filasInactivas.forEach(function(fila) {
+					fila.style.display = "table-row";
+				});
+			});
+	
+			// Evento de escucha para el campo de búsqueda
+			inputBusqueda.addEventListener("input", function() {
+				var textoBusqueda = inputBusqueda.value.toLowerCase();
+				filasActivas.forEach(function(fila) {
+					var contenidoFila = fila.textContent.toLowerCase();
+					if (contenidoFila.includes(textoBusqueda)) {
+						fila.style.display = "table-row";
+					} else {
+						fila.style.display = "none";
+					}
+				});
+				filasInactivas.forEach(function(fila) {
+					var contenidoFila = fila.textContent.toLowerCase();
+					if (contenidoFila.includes(textoBusqueda)) {
+						fila.style.display = "table-row";
+					} else {
+						fila.style.display = "none";
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>
 

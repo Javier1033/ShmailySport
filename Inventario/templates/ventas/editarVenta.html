@@ -7,12 +7,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edicion de Ventas</title>
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
   </head>
   <body>
     <div class="container mt-4">
       <h2>Editar Venta</h2>
       <form method="post">
-        {% csrf_token %} {{ form.as_p }}
+        {% csrf_token %}
+        <table>
+          {{ form.as_table }}
+        </table>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
       </form>
     </div>

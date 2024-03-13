@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import inlineformset_factory, CheckboxSelectMultiple
+from django.forms import inlineformset_factory
 from crispy_forms.helper import FormHelper
 from django.forms import DateInput
 from .models import *
@@ -15,6 +15,7 @@ class RegistroEmpleadoForm(forms.ModelForm):
     fechaNac = forms.DateField(label='Fecha de Nacimiento', widget=DateInput(attrs={'type': 'date'}))
     ciudadPersona = forms.ModelChoiceField(queryset=Ciudad.objects.all(), label='Ciudad de recidencia', required=False)
     sexo = forms.ChoiceField(choices=Personas.sexos, label='Genero')
+    contraseña = forms.CharField(label='contraseña', max_length=30)
 
     arlEmpleado = forms.ModelChoiceField(queryset=Arl.objects.all(), label='Arl del empleado', required=False)
     epsEmpleado = forms.ModelChoiceField(queryset=Eps.objects.all(), label='Eps del empleado', required=False)
@@ -439,9 +440,12 @@ class CorteForm(forms.ModelForm):
 
 #----------------------------------MateriaPrima----------------------------------
 class MateriaPrimaForm(forms.ModelForm):
+    
+    activo = forms.BooleanField(required=False)
+    
     class Meta:
         model = MateriaPrima
-        fields = ['material', 'cantidadMaterial', 'medida']
+        fields = ['material', 'cantidadMaterial', 'medida', 'activo']
         
     def update(self, instance):
         instance.material = self.cleaned_data['material']
@@ -451,9 +455,11 @@ class MateriaPrimaForm(forms.ModelForm):
 
 #----------------------------------Productos----------------------------------
 class ProductoForm(forms.ModelForm):
+    activo = forms.BooleanField(required=False)
+    
     class Meta:
         model = Producto
-        fields = ['producto', 'cantidadProducto']
+        fields = ['producto', 'cantidadProducto', 'activo']
         
 #----------------------------------Productos---------------------------------- 
 class DevolucionForm(forms.ModelForm):

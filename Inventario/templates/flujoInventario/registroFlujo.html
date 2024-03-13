@@ -1,6 +1,7 @@
 {% extends 'home.html' %}
-
 {% block content %}
+
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,74 +9,73 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestión de Inventario</title>
+    <link rel="stylesheet" href="{% static 'css/formulario.css' %}">
   </head>
   <body>
-      <div>
-        <button id="material-btn" class="btn btn-primary">
-          Gestión de Material
-        </button>
-        <button id="corte-btn" class="btn btn-primary">Gestión de Corte</button>
-        <button id="producto-btn" class="btn btn-primary">
-          Gestión de Producto
-        </button>
-      </div>
-    </header>
-
-    <div id="form-container" class="container mt-4">
-      <form id="inventory-form" method="post" onsubmit="return validateForm()">
-        {% csrf_token %}
-        <!-- Campos comunes a todos los formularios -->
-        <div class="mb-3">
-          <label for="docEmpleado" class="form-label">Empleado</label>
-          {{form.docEmpleado}}
-        </div>
-        <!-- Campos específicos de cada formulario -->
-        <div class="mb-3 hidden producto-fields">
-          <label for="flujoSatelite" class="form-label">Satelite</label>
-          {{form.flujoSatelite}}
-        </div>
-        <div class="mb-3 hidden material-fields">
-          <label for="proveedorFlujo" class="form-label">Proveedor</label>
-          {{form.proveedorFlujo}}
-        </div>
-        <div class="mb-3 hidden material-fields">
-          <label for="materialFlu" class="form-label">Material</label>
-          {{form.materialFlu}}
-        </div>
-        <div class="mb-3 hidden corte-fields">
-          <label for="flujoSatelite" class="form-label">Satelite</label>
-          {{form.flujoSatelite}}
-        </div>
-        <div class="mb-3 hidden corte-fields">
-          <label for="flujoCorte" class="form-label">Corte</label>
-          {{form.flujoCorte}}
-        </div>
-        <div class="mb-3 hidden corte-fields">
-          <label for="insumos" class="form-label">Insumos</label>
-          {{form.insumos}}
-        </div>
-        <div class="mb-3 hidden producto-fields">
-          <label for="flujoProducto" class="form-label">Producto</label>
-          {{form.flujoProducto}}
-        </div>
-        <div class="mb-3">
-          <label for="flujo" class="form-label">Flujo</label>
-          {{form.flujo}}
-        </div>
-        <div class="mb-3">
-          <label for="cantidadFlujo" class="form-label">Cantidad</label>
-          <input
-            type="number"
-            class="form-control"
-            id="cantidadFlujo"
-            name="cantidadFlujo"
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="{% url 'registrarCorte' %}" class="btn btn-info hidden corte-fields">Registrar Corte</a>
-      </form>
-    </div>
-
+    <div>
+      <button id="material-btn" class="btn btn-primary">Gestión de Material</button>
+      <button id="corte-btn" class="btn btn-primary">Gestión de Corte</button>
+      <button id="producto-btn" class="btn btn-primary">Gestión de Producto</button>
+  </div>
+  
+  <div id="form-container" class="container mt-4">
+      <table class="table">
+          <form id="inventory-form" method="post" onsubmit="return validateForm()">
+              {% csrf_token %}
+              <tr>
+                  <td><label for="docEmpleado" class="form-label">Empleado</label></td>
+                  <td>{{form.docEmpleado}}</td>
+              </tr>
+              <tr class="hidden producto-fields">
+                  <td><label for="flujoSatelite" class="form-label">Satelite</label></td>
+                  <td>{{form.flujoSatelite}}</td>
+              </tr>
+              <tr class="hidden material-fields">
+                  <td><label for="proveedorFlujo" class="form-label">Proveedor</label></td>
+                  <td>{{form.proveedorFlujo}}</td>
+              </tr>
+              <tr class="hidden material-fields">
+                  <td><label for="materialFlu" class="form-label">Material</label></td>
+                  <td>{{form.materialFlu}}</td>
+              </tr>
+              <tr class="hidden corte-fields">
+                  <td><label for="flujoSatelite" class="form-label">Satelite</label></td>
+                  <td>{{form.flujoSatelite}}</td>
+              </tr>
+              <tr class="hidden corte-fields">
+                  <td><label for="flujoCorte" class="form-label">Corte</label></td>
+                  <td>{{form.flujoCorte}}</td>
+              </tr>
+              <tr class="hidden corte-fields">
+                  <td><label for="insumos" class="form-label">Insumos</label></td>
+                  <td>{{form.insumos}}</td>
+              </tr>
+              <tr class="hidden producto-fields">
+                  <td><label for="flujoProducto" class="form-label">Producto</label></td>
+                  <td>{{form.flujoProducto}}</td>
+              </tr>
+              <tr>
+                  <td><label for="flujo" class="form-label">Flujo</label></td>
+                  <td>{{form.flujo}}</td>
+              </tr>
+              <tr class="hidden producto-fields">
+                  <td><label for="cantidadFlujo" class="form-label">Cantidad</label></td>
+                  <td><input type="number" class="form-control" id="cantidadFlujo" name="cantidadFlujo" /></td>
+              </tr>
+              <tr class="hidden material-fields">
+                <td><label for="cantidadFlujo" class="form-label">Cantidad</label></td>
+                <td><input type="number" class="form-control" id="cantidadFlujo" name="cantidadFlujo" /></td>
+              </tr>
+              <tr>
+                  <td colspan="2">
+                      <button type="submit" class="btn btn-primary">Guardar</button>
+                      <a href="{% url 'registrarCorte' %}" class="btn btn-info hidden corte-fields">Registrar Corte</a>
+                  </td>
+              </tr>
+          </form>
+      </table>
+  </div>
+  
     <script>
       function validateForm() {
         const materialBtn = document.getElementById("material-btn");

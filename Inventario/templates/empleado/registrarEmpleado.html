@@ -2,82 +2,62 @@
 {% block content %}
 
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/formulario.css' %}">
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registro de Emlpeados</title>
-    <link rel="stylesheet" href="{% static 'css/fomrsCompleto.css' %}">
-  </head>
-  <body>
-    <div class="container">
-      <h2>Registrar Empleado</h2>
-      <form method="post" class="needs-validation" novalidate>
-        {% csrf_token %}
-        <div class="form-row">
-          <div class="col-md-6 mb-3">
-            <label for="documento">Documento de identidad</label>
-            {{ form.documento }}
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="nombres">Nombres</label>
-            {{ form.nombres }}
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="apellidos">Apellidos</label>
-            {{ form.apellidos }}
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="direccion">Direccion</label>
-            {{ form.direccion }}
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="correo">Correo</label>
-            {{ form.correo }}
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="celular">Celular</label>
-            {{ form.celular }}
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="fechaNac">Fecha de Nacimiento</label>
-            {{ form.fechaNac }}
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="ciudadPersona">Ciudad</label>
-            {{ form.ciudadPersona }}
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="sexo">Genero</label>
-            {{ form.sexo }}
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="col-md-6 mb-3">
-            <label for="arlEmpleado">Arl del empleado</label>
-            {{ form.arlEmpleado }}
-            <small class="text-muted">O ingrese una nueva ARL</small>
-            {{ form.nueva_arl }}
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="epsEmpleado">Eps del empleado</label>
-            {{ form.epsEmpleado }}
-            <small class="text-muted">O ingrese una nueva EPS</small>
-            {{ form.nueva_eps }}
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="cargo">Cargo del empleado</label>
-            {{ form.cargo }}
-            <small class="text-muted">O ingrese un nuevo Cargo</small>
-            {{ form.nuevo_cargo }}
-          </div>
-        </div>
-        <button class="btn btn-primary" type="submit">Registrar</button>
-      </form>
-    </div>
-  </body>
-</html>
+<div class="container">
+  <h2>Registrar Empleado</h2>
+  <form method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <table class="table">
+      <tr>
+        <td><label for="documento">Documento de identidad</label></td>
+        <td colspan="3">{{ form.documento }}</td>
+      </tr>
+      <tr>
+        <td><label for="nombres">Nombres</label></td>
+        <td>{{ form.nombres }}</td>
+        <td><label for="apellidos">Apellidos</label></td>
+        <td>{{ form.apellidos }}</td>
+      </tr>
+      <tr>
+        <td><label for="direccion">Direccion</label></td>
+        <td>{{ form.direccion }}</td>
+        <td><label for="correo">Correo</label></td>
+        <td>{{ form.correo }}</td>
+      </tr>
+      <tr>
+        <td><label for="celular">Celular</label></td>
+        <td>{{ form.celular }}</td>
+        <td><label for="fechaNac">Fecha de Nacimiento</label></td>
+        <td>{{ form.fechaNac }}</td>
+      </tr>
+      <tr>
+        <td><label for="ciudadPersona">Ciudad</label></td>
+        <td>{{ form.ciudadPersona }}</td>
+        <td><label for="sexo">Genero</label></td>
+        <td>{{ form.sexo }}</td>
+      </tr>
+      <tr>
+        <td><label for="arlEmpleado">Arl del empleado</label></td>
+        <td >{{ form.arlEmpleado }}</td>
+        <td><small class="text-muted">O ingrese una nueva ARL</small></td>
+        <td>{{ form.nueva_arl }}</td>
+      </tr>
+      <tr>
+        <td><label for="epsEmpleado">Eps del empleado</label></td>
+        <td>{{ form.epsEmpleado }}</td>
+        <td><small class="text-muted">O ingrese una nueva EPS</small></td>
+        <td>{{ form.nueva_eps }}</td>
+      </tr>
+      <tr>
+        <td><label for="cargo">Cargo del empleado</label></td>
+        <td>{{ form.cargo }}</td>
+        <td><small class="text-muted">O ingrese un nuevo Cargo</small></td>
+        <td>{{ form.nuevo_cargo }}</td>
+      </tr>
+    </table>
+    <button class="btn btn-primary" type="submit">Registrar</button>
+  </form>
+</div>
 
 {% endblock %}

@@ -15,7 +15,10 @@
     <div class="container">
         <h2>Editar Devolución</h2>
         <form method="post" class="cbp-mc-form">
-        {% csrf_token %} {{ form.as_p }}
+        {% csrf_token %}
+        <table>
+          {{ form.as_table }}
+        </table>
         <div class="cbp-mc-submit-wrap">
             <input class="cbp-mc-submit btn brn-primary" type="submit">Guardar cambios</input>
         </div>

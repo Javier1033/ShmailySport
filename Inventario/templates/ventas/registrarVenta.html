@@ -1,18 +1,23 @@
 {% extends 'home.html' %}
 {% block content %}
 
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Ventas</title>
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
 </head>
 <body>
     <h1>Registro de Venta</h1>
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+        <table>
+            {{ form.as_table }}
+        </table>
         <button type="submit">Guardar Venta</button>
     </form>
 </body>

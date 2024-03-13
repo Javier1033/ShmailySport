@@ -16,7 +16,9 @@
         <h2>Editar Cliente</h2>
         <form method="post" class="cbp-mc-form">
             {% csrf_token %}
-            {{ form.as_p }}
+            <table>
+                {{ form.as_table }}
+            </table>
             <div class="cbp-mc-submit-wrap">
                 <input type="submit" class="cbp-mc-submit btn brn-primary" value="Guardar cambios">
             </div>

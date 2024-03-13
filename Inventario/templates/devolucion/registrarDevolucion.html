@@ -13,73 +13,88 @@
 </head>
 <body>
     <div id="form-container" class="container mt-4">
-        <header class="d-flex justify-content-between align-items-center p-3 bg-dark text-white">
-            <div>
-                <button id="producto-dev-btn" class="btn btn-primary">Devolución de Productos</button>
-                <button id="material-dev-btn" class="btn btn-primary">Devolución de Material</button>
-            </div>
-        </header>
-
-        <form id="dev-form" method="post" onsubmit="return validateForm()">
-            {% csrf_token %}
-            <!-- Campos comunes a ambos formularios -->
-            <div class="mb-3">
-                <label for="devoEmpleado" class="form-label">Empleado</label>
-                {{ form.devoEmpleado }}
-            </div>
-            <div id="producto-dev-fields" class="mb-3 hidden">
-                <label for="devoSatelite" class="form-label">Satelite</label>
-                {{ form.devoSatelite }}
-                <label for="devoProducto" class="form-label">Producto</label>
-                {{ form.devoProducto }}
-            </div>
-            <div id="material-dev-fields" class="mb-3 hidden">
-                <label for="devoProveedor" class="form-label">Proveedor</label>
-                {{ form.devoProveedor }}
-                <label for="devoMaterial" class="form-label">Material</label>
-                {{ form.devoMaterial }}
-            </div>
-            <div class="mb-3">
-                <label for="flujo" class="form-label">Flujo</label>
-                {{ form.flujo }}
-            </div>
-            <div class="mb-3">
-                <label for="motivo" class="form-label">Motivo</label>
-                <input type="text" class="form-control" id="motivo" name="motivo">
-            </div>
-            <div class="mb-3">
-                <label for="cantidadDevo" class="form-label">Cantidad</label>
-                <input type="number" class="form-control" id="cantidadDevo" name="cantidadDevo">
-            </div>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-        </form>
+        <div>
+            <button id="producto-btn" class="btn btn-primary">Devolución de Productos</button>
+            <button id="material-btn" class="btn btn-primary">Devolución de Material</button>
+        </div>
+        <table class="table">
+            <form id="dev-form" method="post" onsubmit="return validateForm()">
+              {% csrf_token %}
+              <!-- Campos comunes a ambos formularios -->
+              <tr>
+                <td><label for="devoEmpleado" class="form-label">Empleado</label></td>
+                <td>{{ form.devoEmpleado }}</td>
+              </tr>
+              <tr class="hidden producto-fields">
+                <td><label for="devoSatelite" class="form-label">Satelite</label></td>
+                <td>{{ form.devoSatelite }}</td>
+              </tr>
+              <tr class="hidden producto-fields">
+                <td><label for="devoProducto" class="form-label">Producto</label></td>
+                <td>{{ form.devoProducto }}</td>
+              </tr>
+              <tr class="hidden material-fields">
+                <td><label for="devoProveedor" class="form-label">Proveedor</label></td>
+                <td>{{ form.devoProveedor }}</td>
+              </tr>
+              <tr class="hidden material-fields">
+                <td><label for="devoMaterial" class="form-label">Material</label></td>
+                <td>{{ form.devoMaterial }}</td>
+              </tr>
+              <tr>
+                <td><label for="flujo" class="form-label">Flujo</label></td>
+                <td>{{ form.flujo }}</td>
+              </tr>
+              <tr>
+                <td><label for="motivo" class="form-label">Motivo</label></td>
+                <td><input type="text" class="form-control" id="motivo" name="motivo"></td>
+              </tr>
+              <tr>
+                <td><label for="cantidadDevo" class="form-label">Cantidad</label></td>
+                <td><input type="number" class="form-control" id="cantidadDevo" name="cantidadDevo"></td>
+              </tr>
+              <tr>
+                <td colspan="2"><button type="submit" class="btn btn-primary">Guardar</button></td>
+              </tr>
+            </form>
+        </table>
     </div>
 
     <script>
         function validateForm() {
-            const productoBtn = document.getElementById("producto-dev-btn");
-            const materialBtn = document.getElementById("material-dev-btn");
+            const productoBtn = document.getElementById("producto-btn");
+            const materialBtn = document.getElementById("material-btn");
             
-            if (!productoBtn.checked && !materialBtn.checked) {
-                alert("Por favor, seleccione un tipo de devolución.");
-                return false; // Evita que se envíe el formulario si no se ha seleccionado ningún botón
-            }
-            return true;
+            materialBtn.addEventListener("click", () => {
+                materialBtn.classList.add("active");
+                productoBtn.classList.remove("active");
+
+                materialFields.forEach((field) => field.classList.remove("hidden"));
+                productoFields.forEach((field) => field.classList.add("hidden"));
+            });
+
+            productoBtn.addEventListener("click", () => {
+                materialBtn.classList.remove("active");
+                productoBtn.classList.add("active");
+
+                materialFields.forEach((field) => field.classList.add("hidden"));
+                productoFields.forEach((field) => field.classList.remove("hidden"));
+            });
         }
-        const productoDevFields = document.getElementById("producto-dev-fields");
-        const materialDevFields = document.getElementById("material-dev-fields");
+        const productoFields = document.querySelectorAll(".producto-fields");
+        const materialFields = document.querySelectorAll(".material-fields");
 
-        const productoDevBtn = document.getElementById("producto-dev-btn");
-        const materialDevBtn = document.getElementById("material-dev-btn");
+        const productoBtn = document.getElementById("producto-btn");
+        const materialBtn = document.getElementById("material-btn");
 
-        productoDevBtn.addEventListener("click", () => {
-            productoDevFields.classList.remove("hidden");
-            materialDevFields.classList.add("hidden");
+        materialBtn.addEventListener("click", () => {
+            materialFields.forEach((field) => field.classList.remove("hidden"));
+            productoFields.forEach((field) => field.classList.add("hidden"));
         });
 
-        materialDevBtn.addEventListener("click", () => {
-            productoDevFields.classList.add("hidden");
-            materialDevFields.classList.remove("hidden");
+        productoBtn.addEventListener("click", () => {
+            materialFields.forEach((field) => field.classList.add("hidden"));
+            productoFields.forEach((field) => field.classList.remove("hidden"));
         });
     </script>
 </body>

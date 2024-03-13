@@ -3,8 +3,6 @@ from .models import *
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from .forms import *
-from django.http import JsonResponse
-from django.template.loader import render_to_string
 
 
 # Create your views here.
@@ -29,10 +27,10 @@ def login_views(request):
             return redirect('index')
 
         # Obtener la contraseña del cargo del empleado
-        contrasena_cargo = empleado.cargo.contraseña
+        contrasena_empleado = empleado.contraseña
 
         # Verificar la contraseña
-        if check_password(contrasena, contrasena_cargo):
+        if check_password(contrasena, contrasena_empleado):
             # Almacenar el documento del empleado en la sesión
             request.session['documento'] = doc_empleado
             return redirect('home')
@@ -64,18 +62,17 @@ def cerrar_sesion(request):
         messages.info(request, "¡Sesión cerrada correctamente!")
     return redirect('index')
 
+
 #-------------------------------------Empleado-------------------------------------
 def empleado(request):
-    empleados = Empleado.objects.filter(activo=True)
+    empleados_activos = Empleado.objects.filter(activo=True)
+    empleados_inactivos = Empleado.objects.filter(activo=False)
     persona = Personas.objects.all()
     arls = Arl.objects.all()
     epss = Eps.objects.all()
     cargos = Cargo.objects.all()
     
-    if not messages.get_messages(request):
-        messages.success(request, 'Empleados Listados')
-    
-    return render(request, 'empleado/empleado.html', {"empleados": empleados, "persona": persona, "arls": arls, "epss": epss, "cargos": cargos})
+    return render(request, 'empleado/empleado.html', {"empleados_activos": empleados_activos, "empleados_inactivos": empleados_inactivos, "persona": persona, "arls": arls, "epss": epss, "cargos": cargos})
 
 def registrarEmpleado(request):
     if request.method == 'POST':
@@ -102,13 +99,11 @@ def editarEmpleado(request, idEmpleado):
 
 #-------------------------------------Satelite-------------------------------------
 def satelite(request):
-    satelite = Satelites.objects.filter(activo=True)
+    satelite_activo = Satelites.objects.filter(activo=True)
+    satelite_inactivo = Satelites.objects.filter(activo=False)
     persona = Personas.objects.all()
     
-    if not messages.get_messages(request):
-        messages.success(request, 'Satelites Listados')
-    
-    return render(request, 'satelite/satelite.html', {"satelite": satelite, "persona": persona})
+    return render(request, 'satelite/satelite.html', {"satelite_activo": satelite_activo, "satelite_inactivo": satelite_inactivo, "persona": persona})
 
 def registrarSatelite(request):
     if request.method == 'POST':
@@ -135,13 +130,11 @@ def editarSatelite(request, idSatelite):
 
 #-------------------------------------Proveedor-------------------------------------
 def proveedores(request):
-    proveedores = Proveedor.objects.filter(activo=True)
+    proveedores_activos = Proveedor.objects.filter(activo=True)
+    proveedores_inactivos = Proveedor.objects.filter(activo=False)
     persona = Personas.objects.all()
     
-    if not messages.get_messages(request):
-        messages.success(request, 'Proveedores Listados')
-    
-    return render(request, 'proveedor/proveedor.html', {"proveedores": proveedores, "persona": persona})
+    return render(request, 'proveedor/proveedor.html', {"proveedores_activos": proveedores_activos, "proveedores_inactivos": proveedores_inactivos, "persona": persona})
 
 def registrarProveedor(request):
     if request.method == 'POST':
@@ -168,13 +161,11 @@ def editarProveedor(request, idProveedor):
 
 #-------------------------------------Cliente-------------------------------------
 def cliente(request):
-    clientes = Cliente.objects.filter(activo=True)
+    clientes_activos = Cliente.objects.filter(activo=True)
+    clientes_inactivos = Cliente.objects.filter(activo=False)
     persona = Personas.objects.all()
     
-    if not messages.get_messages(request):
-        messages.success(request, 'Clientes Listados')
-    
-    return render(request, 'cliente/cliente.html', {"clientes": clientes, "persona": persona})
+    return render(request, 'cliente/cliente.html', {"clientes_activos": clientes_activos, "clientes_inactivos": clientes_inactivos, "persona": persona})
 
 def registrarCliente(request):
     if request.method == 'POST':
@@ -302,9 +293,9 @@ def registrarCorte(request):
 
 #-------------------------------------MateriaPrima-------------------------------------
 def materiaPrima(request):
-    materias_primas = MateriaPrima.objects.all()
-    
-    return render(request, 'materiaPrima/materiaPrima.html', {'materias_primas': materias_primas})
+    materias_primas_activas = MateriaPrima.objects.filter(activo=True)
+    materias_primas_inactivas = MateriaPrima.objects.filter(activo=False)
+    return render(request, 'materiaPrima/materiaPrima.html', {'materias_primas_activas': materias_primas_activas, 'materias_primas_inactivas': materias_primas_inactivas})
 
 def registrarMaterial(request):
     if request.method == 'POST':
@@ -329,17 +320,9 @@ def editarMaterial(request, idMaterial):
 
 #-------------------------------------Productos-------------------------------------
 def productos(request):
-    productos = Producto.objects.all()
-    cargo_empleado = request.session.get('cargo')
-    if cargo_empleado == 'vendedor':
-        editarProducto = False
-    else:
-        editarProducto = True
-    
-    if not messages.get_messages(request):
-        messages.success(request, 'Productos Listados')
-    
-    return render(request, 'producto/producto.html', {'productos': productos, 'editarProducto': editarProducto})
+    productos_activos = Producto.objects.filter(activo=True)
+    productos_inactivos = Producto.objects.filter(activo=False)
+    return render(request, 'producto/producto.html', {'productos_activos': productos_activos, 'productos_inactivos': productos_inactivos})
 
 def registrarProducto(request):
     if request.method == 'POST':
@@ -371,8 +354,6 @@ def devolucion(request):
     satelite = Satelites.objects.all()
     producto = Producto.objects.all()
     
-    messages.success(request, 'Devoluciones Listadas')
-        
     return render(request, 'devolucion/devolucion.html', {"devolucion": devolucion, "empleados": empleados, "proveedores": proveedores, "material": material, "satelite": satelite, "producto": producto})
 
 def registrarDevolucion(request):
@@ -517,3 +498,4 @@ def editarVenta(request, idComprovante):
     else:
         form = VentasForm(instance=venta)
     return render(request, 'ventas/editarVenta.html', {'form': form})
+

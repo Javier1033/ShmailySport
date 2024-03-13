@@ -1,30 +1,62 @@
 {% extends 'home.html' %}
-
 {% block content %}
+
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edición de Clientes</title>
-  </head>
-  <body>
-    <h1>Editar Flujo de Inventario</h1>
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }} {{ formset.management_form }}
-      <table>
+    <link rel="stylesheet" href="{% static 'css/formulario.css' %}">
+</head>
+<body>
+<h1>Editar Flujo de Inventario</h1>
+<form method="post" id="inventory-form">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    {{ formset.management_form }}
+    <table id="dynamic-fields-table">
         {% for form in formset %}
-        <tr>
-          {% for field in form.visible_fields %}
-          <td>{{ field.errors }} {{ field }}</td>
-          {% endfor %}
+        <tr class="form-row">
+            {% for field in form.visible_fields %}
+            <td>{{ field.errors }} {{ field }}</td>
+            {% endfor %}
         </tr>
         {% endfor %}
-      </table>
-      <button type="submit">Guardar cambios</button>
-    </form>
-  </body>
+    </table>
+    <button type="submit">Guardar cambios</button>
+</form>
+
+<script>
+    function mostrarCamposUtilizados() {
+        // Obtener todos los campos del formulario
+        var campos = document.querySelectorAll('#inventory-form input, #inventory-form select');
+
+        // Iterar sobre cada campo y verificar si tiene algún valor
+        campos.forEach(function (campo) {
+            if (campo.type !== 'submit' && campo.type !== 'button') {
+                var fila = campo.closest('.form-row'); // Obtener la fila que contiene el campo
+                if (campo.value.trim() !== '' || campo.checked || campo.type === 'number') {
+                    fila.style.display = ''; // Mostrar la fila si el campo tiene un valor
+                } else {
+                    fila.style.display = 'none'; // Ocultar la fila si el campo está vacío
+                }
+            }
+        });
+    }
+
+    // Ejecutar la función cuando se cargue la página y cada vez que cambie un campo del formulario
+    window.addEventListener('load', mostrarCamposUtilizados);
+    document.querySelectorAll('#inventory-form input, #inventory-form select').forEach(function (campo) {
+        campo.addEventListener('change', mostrarCamposUtilizados);
+    });
+</script>
+
+</body>
 </html>
 
 {% endblock %}
