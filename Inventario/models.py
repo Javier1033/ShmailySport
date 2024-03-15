@@ -45,13 +45,13 @@ class MateriaPrima(models.Model):
     medidas = [
         ('m','metros'),
         ('k','kilos'),
-        ('u','unidaddes')
+        ('u','unidades')
     ]
     medida = models.CharField(max_length=1, choices=medidas, default='m')
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{0}, {1} en stok: {2} {3}"
+        txt = "{0}, {1} en stock: {2} {3}"
         return txt.format(self.idMaterial, self.material, self.cantidadMaterial, self.medida)
     
 class Producto(models.Model):
@@ -74,10 +74,10 @@ class Personas(models.Model):
     fechaNac = models.DateField()
     ciudadPersona = models.ForeignKey(Ciudad, null=False, blank=False, default=1, on_delete=models.CASCADE)
     sexos = [
-        ('F', 'Femenino'),
-        ('M', 'Masculino')
+        ('femenino', 'Femenino'),
+        ('masculino', 'Masculino')
     ]
-    sexo = models.CharField(max_length=1, choices=sexos, default='F')
+    sexo = models.CharField(max_length=20, choices=sexos, default='femenino')
     
     def __str__(self):
         txt = "{0}, {1} {2} cel:{3}"
@@ -186,10 +186,10 @@ class Devoluciones(models.Model):
     devoProducto = models.ForeignKey(Producto, default=None, null=True, blank=True, on_delete=models.CASCADE)
     devoMaterial = models.ForeignKey(MateriaPrima, default=None, null=True, blank=True, on_delete=models.CASCADE)
     flujos = [
-        ('E', 'Entrada'),
-        ('S', 'Salida')
+        ('entrada', 'Entrada'),
+        ('salida', 'Salida')
     ]
-    flujo = models.CharField(max_length=1, choices=flujos, default='E')
+    flujo = models.CharField(max_length=20, choices=flujos, default='entrada')
     motivo = models.CharField(max_length=255, default="")
     cantidadDevo = models.FloatField(null=False, blank=False, default=0.0)
     fechaDevolucion = models.DateTimeField(auto_now_add=True)

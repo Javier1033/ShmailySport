@@ -1,7 +1,4 @@
-{% extends 'home.html' %}
-{% block content %}
-
-{% load static %}
+{% extends 'home.html' %} {% block content %} {% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,73 +6,84 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestión de Inventario</title>
-    <link rel="stylesheet" href="{% static 'css/formulario.css' %}">
+    <link rel="stylesheet" href="{% static 'css/formulario.css' %}" />
   </head>
   <body>
     <div>
-      <button id="material-btn" class="btn btn-primary">Gestión de Material</button>
+      <button id="material-btn" class="btn btn-primary">
+        Gestión de Material
+      </button>
       <button id="corte-btn" class="btn btn-primary">Gestión de Corte</button>
-      <button id="producto-btn" class="btn btn-primary">Gestión de Producto</button>
-  </div>
-  
-  <div id="form-container" class="container mt-4">
+      <button id="producto-btn" class="btn btn-primary">
+        Gestión de Producto
+      </button>
+    </div>
+
+    <div id="form-container" class="container mt-4">
       <table class="table">
-          <form id="inventory-form" method="post" onsubmit="return validateForm()">
-              {% csrf_token %}
-              <tr>
-                  <td><label for="docEmpleado" class="form-label">Empleado</label></td>
-                  <td>{{form.docEmpleado}}</td>
-              </tr>
-              <tr class="hidden producto-fields">
-                  <td><label for="flujoSatelite" class="form-label">Satelite</label></td>
-                  <td>{{form.flujoSatelite}}</td>
-              </tr>
-              <tr class="hidden material-fields">
-                  <td><label for="proveedorFlujo" class="form-label">Proveedor</label></td>
-                  <td>{{form.proveedorFlujo}}</td>
-              </tr>
-              <tr class="hidden material-fields">
-                  <td><label for="materialFlu" class="form-label">Material</label></td>
-                  <td>{{form.materialFlu}}</td>
-              </tr>
-              <tr class="hidden corte-fields">
-                  <td><label for="flujoSatelite" class="form-label">Satelite</label></td>
-                  <td>{{form.flujoSatelite}}</td>
-              </tr>
-              <tr class="hidden corte-fields">
-                  <td><label for="flujoCorte" class="form-label">Corte</label></td>
-                  <td>{{form.flujoCorte}}</td>
-              </tr>
-              <tr class="hidden corte-fields">
-                  <td><label for="insumos" class="form-label">Insumos</label></td>
-                  <td>{{form.insumos}}</td>
-              </tr>
-              <tr class="hidden producto-fields">
-                  <td><label for="flujoProducto" class="form-label">Producto</label></td>
-                  <td>{{form.flujoProducto}}</td>
-              </tr>
-              <tr>
-                  <td><label for="flujo" class="form-label">Flujo</label></td>
-                  <td>{{form.flujo}}</td>
-              </tr>
-              <tr class="hidden producto-fields">
-                  <td><label for="cantidadFlujo" class="form-label">Cantidad</label></td>
-                  <td><input type="number" class="form-control" id="cantidadFlujo" name="cantidadFlujo" /></td>
-              </tr>
-              <tr class="hidden material-fields">
-                <td><label for="cantidadFlujo" class="form-label">Cantidad</label></td>
-                <td><input type="number" class="form-control" id="cantidadFlujo" name="cantidadFlujo" /></td>
-              </tr>
-              <tr>
-                  <td colspan="2">
-                      <button type="submit" class="btn btn-primary">Guardar</button>
-                      <a href="{% url 'registrarCorte' %}" class="btn btn-info hidden corte-fields">Registrar Corte</a>
-                  </td>
-              </tr>
-          </form>
+        <form id="registroForm" method="post" onsubmit="return validateForm()">
+          {% csrf_token %}
+          <tr>
+            <td><label id="docEmpleado" for="docEmpleado" class="form-label">Empleado</label></td>
+            <td>{{form.docEmpleado}}</td>
+          </tr>
+          <tr class="hidden producto-fields">
+            <td><label id="flujoSatelite1" for="flujoSatelite" class="form-label">Satelite</label></td>
+            <td>{{form.flujoSatelite}}</td>
+          </tr>
+          <tr class="hidden material-fields">
+            <td><label id="proveedorFlujo" for="proveedorFlujo" class="form-label">Proveedor</label></td>
+            <td>{{form.proveedorFlujo}}</td>
+          </tr>
+          <tr class="hidden material-fields">
+            <td><label id="materialFlu" for="materialFlu" class="form-label">Material</label></td>
+            <td>{{form.materialFlu}}</td>
+          </tr>
+          <tr class="hidden corte-fields">
+            <td><label id="flujoSatelite2" for="flujoSatelite" class="form-label">Satelite</label></td>
+            <td>{{form.flujoSatelite}}</td>
+          </tr>
+          <tr class="hidden corte-fields">
+            <td><label id="flujoCorte" for="flujoCorte" class="form-label">Corte</label></td>
+            <td>{{form.flujoCorte}}</td>
+          </tr>
+          <tr class="hidden corte-fields">
+            <td><label for="insumos" class="form-label">Insumos</label></td>
+            <td>{{form.insumos}}</td>
+          </tr>
+          <tr class="hidden producto-fields">
+            <td><label id="flujoProducto" for="flujoProducto" class="form-label">Producto</label></td>
+            <td>{{form.flujoProducto}}</td>
+          </tr>
+          <tr>
+            <td><label id="flujo" for="flujo" class="form-label">Flujo</label></td>
+            <td>{{form.flujo}}</td>
+          </tr>
+          <tr >
+            <td><label id="cantidadFlujo1" for="cantidadFlujo" class="form-label">Cantidad</label></td>
+            <td><input type="number" class="form-control" id="cantidadFlujo" name="cantidadFlujo"/></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <button type="submit" class="btn btn-primary">Guardar</button>
+              <a href="{% url 'registrarCorte' %}" class="btn btn-info hidden corte-fields">Registrar Corte</a>
+            </td>
+          </tr>
+        </form>
       </table>
-  </div>
-  
+    </div>
+
+    <div id="confirmacionRegistro" class="modal" style="width: 60%; margin: 0 auto">
+      <div class="modal-content" style="padding: 20px">
+        <span class="close" style="float: right; font-size: 28px; font-weight: bold">&times;</span>
+        <p style="font-size: 20px">¿Estás seguro de que deseas hacer este registro?</p>
+        <div style="text-align: center; margin-top: 20px">
+          <button id="confirmarBtn" class="btn-confirmar" style="font-size: 18px; padding: 10px 20px; margin-right: 10px">¡Sí, registrar!</button>
+          <button id="cancelarBtn" class="btn-cancelar" style="font-size: 18px; padding: 10px 20px">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
     <script>
       function validateForm() {
         const materialBtn = document.getElementById("material-btn");
@@ -83,59 +91,96 @@
         const productoBtn = document.getElementById("producto-btn");
 
         materialBtn.addEventListener("click", () => {
-          materialBtn.classList.add("active");
-          corteBtn.classList.remove("active");
-          productoBtn.classList.remove("active");
+            materialBtn.classList.add("active");
+            corteBtn.classList.remove("active");
+            productoBtn.classList.remove("active");
 
-          materialFields.forEach((field) => field.classList.remove("hidden"));
-          corteFields.forEach((field) => field.classList.add("hidden"));
-          productoFields.forEach((field) => field.classList.add("hidden"));
+            materialFields.forEach((field) => field.classList.remove("hidden"));
+            corteFields.forEach((field) => field.classList.add("hidden"));
+            productoFields.forEach((field) => field.classList.add("hidden"));
         });
 
         corteBtn.addEventListener("click", () => {
-          materialBtn.classList.remove("active");
-          corteBtn.classList.add("active");
-          productoBtn.classList.remove("active");
+            materialBtn.classList.remove("active");
+            corteBtn.classList.add("active");
+            productoBtn.classList.remove("active");
 
-          materialFields.forEach((field) => field.classList.add("hidden"));
-          corteFields.forEach((field) => field.classList.remove("hidden"));
-          productoFields.forEach((field) => field.classList.add("hidden"));
+            materialFields.forEach((field) => field.classList.add("hidden"));
+            corteFields.forEach((field) => field.classList.remove("hidden"));
+            productoFields.forEach((field) => field.classList.add("hidden"));
         });
 
         productoBtn.addEventListener("click", () => {
-          materialBtn.classList.remove("active");
-          corteBtn.classList.remove("active");
-          productoBtn.classList.add("active");
+            materialBtn.classList.remove("active");
+            corteBtn.classList.remove("active");
+            productoBtn.classList.add("active");
 
-          materialFields.forEach((field) => field.classList.add("hidden"));
-          corteFields.forEach((field) => field.classList.add("hidden"));
-          productoFields.forEach((field) => field.classList.remove("hidden"));
+            materialFields.forEach((field) => field.classList.add("hidden"));
+            corteFields.forEach((field) => field.classList.add("hidden"));
+            productoFields.forEach((field) => field.classList.remove("hidden"));
         });
-      }
-      const materialFields = document.querySelectorAll(".material-fields");
-      const corteFields = document.querySelectorAll(".corte-fields");
-      const productoFields = document.querySelectorAll(".producto-fields");
+        }
 
-      const materialBtn = document.getElementById("material-btn");
-      const corteBtn = document.getElementById("corte-btn");
-      const productoBtn = document.getElementById("producto-btn");
+        const materialFields = document.querySelectorAll(".material-fields");
+        const corteFields = document.querySelectorAll(".corte-fields");
+        const productoFields = document.querySelectorAll(".producto-fields");
 
-      materialBtn.addEventListener("click", () => {
-        materialFields.forEach((field) => field.classList.remove("hidden"));
-        corteFields.forEach((field) => field.classList.add("hidden"));
-        productoFields.forEach((field) => field.classList.add("hidden"));
+        validateForm();
+
+      var registroForm = document.getElementById("registroForm");
+      var confirmacionRegistro = document.getElementById(
+        "confirmacionRegistro"
+      );
+      registroForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (validarCampos()) {
+          confirmacionRegistro.style.display = "block";
+        } else {
+          alert("Por favor, rellene todos los campos antes de continuar.");
+        }
       });
 
-      corteBtn.addEventListener("click", () => {
-        materialFields.forEach((field) => field.classList.add("hidden"));
-        corteFields.forEach((field) => field.classList.remove("hidden"));
-        productoFields.forEach((field) => field.classList.add("hidden"));
-      });
+      function validarCampos() {
+        var formElements = registroForm.elements;
+        console.log("Validando campos...");
 
-      productoBtn.addEventListener("click", () => {
-        materialFields.forEach((field) => field.classList.add("hidden"));
-        corteFields.forEach((field) => field.classList.add("hidden"));
-        productoFields.forEach((field) => field.classList.remove("hidden"));
+        // Lista de nombres de campos que son obligatorios cuando se selecciona un cierto botón
+        var camposObligatoriosMaterial = ["docEmpleado", "proveedorFlujo","materialFlu", "flujo"];
+        var camposObligatoriosCorte = ["docEmpleado", "flujoSatelite2", "flujoCorte", "flujo"];
+        var camposObligatoriosProducto = ["docEmpleado", "flujoSatelite1", "flujoProducto", "flujo"];
+
+        // Verificar qué botón está seleccionado
+        var materialBtnSeleccionado = document.getElementById("material-btn").classList.contains("active");
+        var corteBtnSeleccionado = document.getElementById("corte-btn").classList.contains("active");
+        var productoBtnSeleccionado = document.getElementById("producto-btn").classList.contains("active");
+
+        for (var i = 0; i < formElements.length; i++) {
+            if (materialBtnSeleccionado && camposObligatoriosMaterial.includes(formElements[i].name) && formElements[i].value.trim() === "") {
+            console.log("Campo vacío encontrado: ", formElements[i].name);
+            return false;
+            }
+
+            if (corteBtnSeleccionado && camposObligatoriosCorte.includes(formElements[i].name) && formElements[i].value.trim() === "") {
+            console.log("Campo vacío encontrado: ", formElements[i].name);
+            return false;
+            }
+
+            if (productoBtnSeleccionado && camposObligatoriosProducto.includes(formElements[i].name) && formElements[i].value.trim() === "") {
+            console.log("Campo vacío encontrado: ", formElements[i].name);
+            return false;
+            }
+        }
+        return true;
+        }
+
+      var confirmarBtn = document.getElementById("confirmarBtn");
+      var cancelarBtn = document.getElementById("cancelarBtn");
+      confirmarBtn.addEventListener("click", function () {
+        registroForm.submit();
+      });
+      cancelarBtn.addEventListener("click", function () {
+        confirmacionRegistro.style.display = "none";
       });
     </script>
   </body>

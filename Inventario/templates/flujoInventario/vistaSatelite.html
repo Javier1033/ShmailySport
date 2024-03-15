@@ -13,7 +13,7 @@
 </head>
 <body>
     <h1>Cortes de Satélite</h1>
-    <form method="post">
+    <form id="myForm" method="post">
         {% csrf_token %}
         <label for="satelite">Selecciona un satélite:</label>
         <select name="satelite" id="satelite">
@@ -24,6 +24,7 @@
             </option>
             {% endfor %}
         </select>
+        <span id="error" style="color: rgb(163, 150, 9); display: none;">Por favor, selecciona un satélite.</span>
         <button type="submit">Mostrar Cortes</button>
     </form>
 
@@ -49,13 +50,30 @@
     <ul>
         {% for corte in cortes_no_entregados %}
             <li>
-                Corte {{ corte.idCorte }}: Material: {{ corte.materialCorte.material }} - Producto Final: {{ corte.productoCorte.producto }} (No entregado) <a href="{% url 'marcar_entregado' corte.idCorte %}" class="mark-entregado">Marcar como entregado</a>
+                Corte {{ corte.idCorte }}: Material: {{ corte.materialCorte.material }} - Producto Final: {{ corte.productoCorte.producto }} (No entregado) 
+                <a href="{% url 'marcar_entregado' corte.idCorte %}" class="mark-entregado" onclick="return confirm('¿Estás seguro de que deseas marcar este corte como entregado?')">Marcar como entregado</a>
             </li>
         {% endfor %}
     </ul>
     {% else %}
     <p>No hay cortes no entregados vinculados a este satélite.</p>
     {% endif %}
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            var satelite = document.getElementById('satelite');
+            var error = document.getElementById('error');
+        
+            if (satelite.value === '') {
+                // Si no se ha seleccionado un satélite, muestra el mensaje de error y evita que se envíe el formulario
+                error.style.display = 'block';
+                event.preventDefault();
+            } else {
+                // Si se ha seleccionado un satélite, oculta el mensaje de error
+                error.style.display = 'none';
+            }
+        });
+    </script>
+        
 </body>
 </html>
 

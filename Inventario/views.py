@@ -233,7 +233,7 @@ def registroFlujo(request):
         if form.is_valid():
             flujo_inventario = form.save(commit=False)
             flujo = flujo_inventario.flujo
-
+            
             if flujo == 'entrada':  
                 flujo_inventario.save()
                 if flujo_inventario.flujoProducto:
@@ -358,14 +358,13 @@ def devolucion(request):
 
 def registrarDevolucion(request):
     if request.method == 'POST':
-        form = DevolucionForm(request.POST)
+        form = DevolucionesForm(request.POST)
         if form.is_valid():
             devolucion = form.save(commit=False)
             flujo = devolucion.flujo
 
             # Verificar si es una entrada o salida
-            if flujo == 'Entrada':  # Entrada
-                devolucion.save()
+            if flujo == 'entrada':  # Entrada
                 # Lógica para sumar al producto o material
                 if devolucion.devoProducto:
                     producto = devolucion.devoProducto
@@ -375,9 +374,8 @@ def registrarDevolucion(request):
                     material = devolucion.devoMaterial
                     material.cantidadMaterial += devolucion.cantidadDevo
                     material.save()
-            elif flujo == 'Salida':  # Salida
+            elif flujo == 'salida':  # Salida
                 # Lógica para restar del producto o material
-                devolucion.save()
                 if devolucion.devoProducto:
                     producto = devolucion.devoProducto
                     producto.cantidadProducto -= devolucion.cantidadDevo
@@ -387,70 +385,54 @@ def registrarDevolucion(request):
                     material.cantidadMaterial -= devolucion.cantidadDevo
                     material.save()
 
+            # Guardar la devolución después de actualizar la cantidad
+            devolucion.save()
+
             return redirect('devolucion')  # Redirige a donde quieras
     else:
-        form = DevolucionForm()
+        form = DevolucionesForm()
     return render(request, 'devolucion/registrarDevolucion.html', {'form': form})
 
-def editarDevolucion(request, idDevolucion):
-    devolucion = Devoluciones.objects.get(pk=idDevolucion)
+def editarDevolucion(request, pk):
+    # Obtener la devolución por su clave primaria (pk)
+    devolucion = get_object_or_404(Devoluciones, pk=pk)
+
     if request.method == 'POST':
-        form = DevolucionForm(request.POST, instance=devolucion)
+        # Llenar el formulario con los datos de la devolución
+        form = DevolucionesForm(request.POST, instance=devolucion)
         if form.is_valid():
-            devolucion_actualizada = form.save(commit=False)
-            flujo_anterior = devolucion.flujo
-            flujo_nuevo = devolucion_actualizada.flujo
+            devolucion = form.save(commit=False)
+            flujo = devolucion.flujo
 
-            # Verificar si el flujo cambió de entrada a salida o viceversa
-            if flujo_anterior != flujo_nuevo:
-                # Restar la cantidad de la devolución anterior
-                if flujo_anterior == 'E':  # Si la devolución anterior era una entrada
-                    # Lógica para restar del producto o material correspondiente
-                    if devolucion.devoProducto:
-                        producto = devolucion.devoProducto
-                        producto.cantidadProducto -= devolucion.cantidadDevo
-                        producto.save()
-                    elif devolucion.devoMaterial:
-                        material = devolucion.devoMaterial
-                        material.cantidadMaterial -= devolucion.cantidadDevo
-                        material.save()
-                elif flujo_anterior == 'S':  # Si la devolución anterior era una salida
-                    # Lógica para sumar al producto o material correspondiente
-                    if devolucion.devoProducto:
-                        producto = devolucion.devoProducto
-                        producto.cantidadProducto += devolucion.cantidadDevo
-                        producto.save()
-                    elif devolucion.devoMaterial:
-                        material = devolucion.devoMaterial
-                        material.cantidadMaterial += devolucion.cantidadDevo
-                        material.save()
+            # Verificar si es una entrada o salida
+            if flujo == 'entrada':  # Entrada
+                # Lógica para actualizar la cantidad en el producto o material
+                if devolucion.devoProducto:
+                    producto = devolucion.devoProducto
+                    producto.cantidadProducto += devolucion.cantidadDevo
+                    producto.save()
+                elif devolucion.devoMaterial:
+                    material = devolucion.devoMaterial
+                    material.cantidadMaterial += devolucion.cantidadDevo
+                    material.save()
+            elif flujo == 'salida':  # Salida
+                # Lógica para actualizar la cantidad en el producto o material
+                if devolucion.devoProducto:
+                    producto = devolucion.devoProducto
+                    producto.cantidadProducto -= devolucion.cantidadDevo
+                    producto.save()
+                elif devolucion.devoMaterial:
+                    material = devolucion.devoMaterial
+                    material.cantidadMaterial -= devolucion.cantidadDevo
+                    material.save()
 
-                # Sumar la cantidad de la nueva devolución
-                if flujo_nuevo == 'E':  # Si la nueva devolución es una entrada
-                    # Lógica para sumar al producto o material correspondiente
-                    if devolucion_actualizada.devoProducto:
-                        producto = devolucion_actualizada.devoProducto
-                        producto.cantidadProducto += devolucion_actualizada.cantidadDevo
-                        producto.save()
-                    elif devolucion_actualizada.devoMaterial:
-                        material = devolucion_actualizada.devoMaterial
-                        material.cantidadMaterial += devolucion_actualizada.cantidadDevo
-                        material.save()
-                elif flujo_nuevo == 'S':  # Si la nueva devolución es una salida
-                    # Lógica para restar del producto o material correspondiente
-                    if devolucion_actualizada.devoProducto:
-                        producto = devolucion_actualizada.devoProducto
-                        producto.cantidadProducto -= devolucion_actualizada.cantidadDevo
-                        producto.save()
-                    elif devolucion_actualizada.devoMaterial:
-                        material = devolucion_actualizada.devoMaterial
-                        material.cantidadMaterial -= devolucion_actualizada.cantidadDevo
-                        material.save()
+            # Guardar los cambios en la devolución
+            devolucion.save()
 
-            devolucion_actualizada.save()
-            return redirect('devolucion')  # Redirige a donde quieras después de la edición
+            return redirect('devolucion')  # Redirige a donde quieras
     else:
-        form = DevolucionForm(instance=devolucion)
+        # Llenar el formulario con los datos de la devolución
+        form = DevolucionesForm(instance=devolucion)
     
     return render(request, 'devolucion/editarDevolucion.html', {'form': form})
 

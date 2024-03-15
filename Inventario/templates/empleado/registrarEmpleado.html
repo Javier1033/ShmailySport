@@ -6,12 +6,14 @@
 
 <div class="container">
   <h2>Registrar Empleado</h2>
-  <form method="post" class="needs-validation" novalidate>
+  <form method="post" class="needs-validation" novalidate id="registroForm">
     {% csrf_token %}
     <table class="table">
       <tr>
         <td><label for="documento">Documento de identidad</label></td>
-        <td colspan="3">{{ form.documento }}</td>
+        <td>{{ form.documento }}</td>
+        <td><label for="contraseña">Contraseña</label></td>
+        <td>{{ form.contraseña }}</td>
       </tr>
       <tr>
         <td><label for="nombres">Nombres</label></td>
@@ -38,26 +40,77 @@
         <td>{{ form.sexo }}</td>
       </tr>
       <tr>
-        <td><label for="arlEmpleado">Arl del empleado</label></td>
+        <td><label for="arlEmpleado" id="arlEmpleado">Arl del empleado</label></td>
         <td >{{ form.arlEmpleado }}</td>
-        <td><small class="text-muted">O ingrese una nueva ARL</small></td>
+        <td><small class="text-muted" id="nueva_arl">O ingrese una nueva ARL</small></td>
         <td>{{ form.nueva_arl }}</td>
       </tr>
       <tr>
-        <td><label for="epsEmpleado">Eps del empleado</label></td>
+        <td><label for="epsEmpleado" id="epsEmpleado">Eps del empleado</label></td>
         <td>{{ form.epsEmpleado }}</td>
-        <td><small class="text-muted">O ingrese una nueva EPS</small></td>
+        <td><small class="text-muted" id="nueva_eps">O ingrese una nueva EPS</small></td>
         <td>{{ form.nueva_eps }}</td>
       </tr>
       <tr>
-        <td><label for="cargo">Cargo del empleado</label></td>
+        <td><label for="cargo" id="cargo">Cargo del empleado</label></td>
         <td>{{ form.cargo }}</td>
-        <td><small class="text-muted">O ingrese un nuevo Cargo</small></td>
+        <td><small class="text-muted" id="nuevo_cargo">O ingrese un nuevo Cargo</small></td>
         <td>{{ form.nuevo_cargo }}</td>
       </tr>
     </table>
-    <button class="btn btn-primary" type="submit">Registrar</button>
+    <button id="guardarBtn" class="btn btn-primary" type="submit">Registrar</button>
   </form>
 </div>
+<div id="confirmacionRegistro" class="modal" style="width: 60%; margin: 0 auto;">
+  <div class="modal-content" style="padding: 20px;">
+      <span class="close" style="float: right; font-size: 28px; font-weight: bold;">&times;</span>
+      <p style="font-size: 20px;">¿Estás seguro de que deseas registrar este Empleado?</p>
+      <div style="text-align: center; margin-top: 20px;">
+          <button id="confirmarBtn" class="btn-confirmar" style="font-size: 18px; padding: 10px 20px; margin-right: 10px;">¡Sí, registrar!</button>
+          <button id="cancelarBtn" class="btn-cancelar" style="font-size: 18px; padding: 10px 20px;">Cancelar</button>
+      </div>
+  </div>
+</div>
+<script>
+    var registroForm = document.getElementById("registroForm");
+    var confirmacionRegistro = document.getElementById("confirmacionRegistro");
+    registroForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      // Verificar si los campos están rellenados
+      if (validarCampos()) {
+        confirmacionRegistro.style.display = "block";
+      } else {
+        alert("Por favor, rellene todos los campos antes de continuar.");
+      }
+    });
+    function validarCampos() {
+        var formElements = registroForm.elements;
+        console.log("Validando campos...");
+
+        // Lista de nombres de campos que pueden dejarse en blanco
+        var camposOmitidos = ["arlEmpleado", "epsEmpleado", "cargo", "nuevo_cargo", "nueva_arl", "nueva_eps"];
+
+        for (var i = 0; i < formElements.length; i++) {
+            if (camposOmitidos.includes(formElements[i].name)) {
+            continue;
+            }
+            
+            if (formElements[i].type !== "submit" && formElements[i].value.trim() === "") {
+            console.log("Campo vacío encontrado: ", formElements[i].name);
+            return false;
+            }
+        }
+        return true;
+    }
+
+    var confirmarBtn = document.getElementById("confirmarBtn");
+    var cancelarBtn = document.getElementById("cancelarBtn");
+    confirmarBtn.addEventListener("click", function () {
+      registroForm.submit();
+    });
+    cancelarBtn.addEventListener("click", function () {
+      confirmacionRegistro.style.display = "none";
+    });
+</script>
 
 {% endblock %}

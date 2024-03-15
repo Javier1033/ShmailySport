@@ -9,7 +9,7 @@
     <meta name="description" content="Robust admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, robust admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
-    <title>S.I ShmailySport</title>
+    <title>SIG ShmailySport</title>
     <link rel="apple-touch-icon" sizes="60x60" href="{% static 'app-assets/images/ico/logoShmaily.jpg' %}">
     <link rel="apple-touch-icon" sizes="76x76" href="{% static 'app-assets/images/ico/logoShmaily.jpg' %}">
     <link rel="apple-touch-icon" sizes="120x120" href="{% static 'app-assets/images/ico/logoShmaily.jpg' %}">
@@ -88,6 +88,7 @@
   </div>
 </div>
 <!--==========================================-->
+
     <!-- main menu-->
   <div data-scroll-to-active="true" class="main-menu menu-fixed menu-dark menu-accordion menu-shadow">
 
@@ -98,6 +99,7 @@
     <div class="main-menu-content">
       <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
 
+        {% if cargo_empleado == 'Gerente' or cargo_empleado == 'Administrador' %}
         <li class=" nav-item"><a href="#"><i class="icon-dropbox"></i><span class="menu-title">Flujo Inventario</span></a>
           <ul class="menu-content">
             <li><a href="{% url 'flujoInventario' %}" class="menu-item">Lista de Flujos</a></li>
@@ -168,6 +170,40 @@
         </li>
         <li class=" nav-item"><a href="#"><i class="icon-database2"></i><span  class="menu-title">Backup</span></a>
         </li>
+        {% elif cargo_empleado == 'Vendedor' %}
+        <li class=" nav-item"><a href="#"><i class="icon-reload"></i><span  class="menu-title">Devoluciones</span></a>
+          <ul class="menu-content">
+            <li><a href="{% url 'devolucion' %}" class="menu-item">Lista de Devoluciones</a></li>
+            <li><a href="{% url 'registrarDevolucion' %}" class="menu-item">Registro de Devoluciones</a></li>
+          </ul>
+        </li>
+        <li class=" nav-item"><a href="#"><i class="icon-shopping-cart"></i><span class="menu-title">Ventas</span></a>
+          <ul class="menu-content">
+            <li><a href="{% url 'ventas' %}" class="menu-item">Lista de Ventas</a></li>
+            <li><a href="{% url 'registrarVenta' %}" class="menu-item">Realizar Venta</a></li>
+          </ul>
+        <li class=" nav-item"><a href="#"><i class="icon-product-hunt"></i><span class="menu-title">Productos</span></a>
+          <ul class="menu-content">
+            <li><a href="{% url 'producto' %}" class="menu-item">Lista de Productos</a></li>
+          </ul>
+        </li>
+
+        <li class=" navigation-header"><span>PERSONAL</span>
+        </li>
+        <li class=" nav-item"><a href="#"><i class="icon-user"></i><span class="menu-title">Clientes</span></a>
+          <ul class="menu-content">
+            <li><a href="{% url 'cliente' %}" class="menu-item">Lista de Clientes</a></li>
+            <li><a href="{% url 'registrarCliente' %}" class="menu-item">Registrar Cliente</a></li>
+          </ul>
+        </li>
+
+        <li class=" navigation-header"><span>Informes</span>
+        </li>
+        <li class=" nav-item"><a href="#"><i class="icon-file-text2"></i><span class="menu-title">Reportes </span></a>
+        </li>
+        <li class=" nav-item"><a href="#"><i class="icon-stats-dots"></i><span  class="menu-title">Gráficas</span></a>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </div>
@@ -197,12 +233,8 @@
     <footer class="footer footer-static footer-light navbar-border" style="bottom: 0;
     position:fixed;width: 80%;">
       <p class="clearfix text-muted text-sm-center mb-0 px-2">
-        <span class="float-md-left d-xs-block d-md-inline-block">Copyright  &copy; 2023 
-          <a href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent"
-          target="_blank" class="text-bold-800 grey darken-2">ADSO </a>, All rights reserved Ficha.xxxxx. 
-        </span>
         <span class="float-md-right d-xs-block d-md-inline-block">
-          SENA - CSF <i class="justify-content-end"></i>
+          SIG - ShmailySport <i class="justify-content-end"></i>
         </span>
       </p>
     </footer>

@@ -116,7 +116,7 @@ class RegistroSateliteForm(forms.ModelForm):
     direccion = forms.CharField(label='Direccion de recidencia', max_length=50)
     correo = forms.EmailField(label='Correo electronico', max_length=50)
     celular = forms.IntegerField(label='No. de contacto')
-    fechaNac = forms.DateField(label='Fecha de Nacimiento')
+    fechaNac = forms.DateField(label='Fecha de Nacimiento', widget=DateInput(attrs={'type': 'date'}))
     ciudadPersona = forms.ModelChoiceField(queryset=Ciudad.objects.all(), label='Ciudad de recidencia', required=False)
     sexo = forms.ChoiceField(choices=Personas.sexos, label='Genero')
 
@@ -194,7 +194,7 @@ class RegistroProveedorForm(forms.ModelForm):
     direccion = forms.CharField(label='Direccion de recidencia', max_length=50)
     correo = forms.EmailField(label='Correo electronico', max_length=50)
     celular = forms.IntegerField(label='No. de contacto')
-    fechaNac = forms.DateField(label='Fecha de Nacimiento')
+    fechaNac = forms.DateField(label='Fecha de Nacimiento', widget=DateInput(attrs={'type': 'date'}))
     ciudadPersona = forms.ModelChoiceField(queryset=Ciudad.objects.all(), label='Ciudad de recidencia', required=False)
     sexo = forms.ChoiceField(choices=Personas.sexos, label='Genero')
 
@@ -271,7 +271,7 @@ class RegistroClienteForm(forms.ModelForm):
     direccion = forms.CharField(label='Direccion de recidencia', max_length=50)
     correo = forms.EmailField(label='Correo electronico', max_length=50)
     celular = forms.IntegerField(label='No. de contacto')
-    fechaNac = forms.DateField(label='Fecha de Nacimiento')
+    fechaNac = forms.DateField(label='Fecha de Nacimiento', widget=DateInput(attrs={'type': 'date'}))
     ciudadPersona = forms.ModelChoiceField(queryset=Ciudad.objects.all(), label='Ciudad de recidencia', required=False)
     sexo = forms.ChoiceField(choices=Personas.sexos, label='Genero')
 
@@ -440,7 +440,6 @@ class CorteForm(forms.ModelForm):
 
 #----------------------------------MateriaPrima----------------------------------
 class MateriaPrimaForm(forms.ModelForm):
-    
     activo = forms.BooleanField(required=False)
     
     class Meta:
@@ -461,18 +460,37 @@ class ProductoForm(forms.ModelForm):
         model = Producto
         fields = ['producto', 'cantidadProducto', 'activo']
         
+    def update(self, instance):
+        instance.producto = self.cleaned_data['producto']
+        instance.cantidadProducto = self.cleaned_data['cantidadProducto']
+        instance.save()
+        
 #----------------------------------Productos---------------------------------- 
-class DevolucionForm(forms.ModelForm):
+class DevolucionesForm(forms.ModelForm):
     class Meta:
         model = Devoluciones
         fields = ['devoEmpleado', 'devoSatelite', 'devoProveedor', 'devoProducto', 'devoMaterial', 'flujo', 'motivo', 'cantidadDevo']
-        # Añade un diccionario de widgets para cada campo
-        widgets = {
-            'devoProveedor': forms.Select(attrs={'required': False}),
-            'devoSatelite': forms.Select(attrs={'required': False}),
-            'devoProducto': forms.Select(attrs={'required': False}),
-            'devoMaterial': forms.Select(attrs={'required': False}),
+        labels = {
+            'devoEmpleado': 'Empleado',
+            'devoSatelite': 'Satélite',
+            'devoProveedor': 'Proveedor',
+            'devoProducto': 'Producto',
+            'devoMaterial': 'Materia Prima',
+            'flujo': 'Flujo',
+            'motivo': 'Motivo',
+            'cantidadDevo': 'Cantidad de Devolución',
         }
+        widgets = {
+            # Aquí puedes definir widgets personalizados si es necesario
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Establecer required=False para los campos que no deseas que sean obligatorios
+        self.fields['devoSatelite'].required = False
+        self.fields['devoProveedor'].required = False
+        self.fields['devoProducto'].required = False
+        self.fields['devoMaterial'].required = False
 
 #----------------------------------Productos---------------------------------- 
 class VentasForm(forms.ModelForm):
