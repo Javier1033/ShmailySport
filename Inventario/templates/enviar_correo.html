@@ -1,0 +1,37 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Correo</title>
+    <link rel="stylesheet" href="{% static 'css/vistaSatelite.css' %}">
+</head>
+<body>
+    <h1>Envio de Correos</h1>
+    {% if mensaje %}
+    <p>{{ mensaje }}</p>
+    {% endif %}
+    {% if error %}
+    <p>Error: {{ error }}</p>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="asunto">Asunto:</label><br>
+        <input type="text" id="asunto" name="asunto" required><br><br>
+        <label for="mensaje">Mensaje:</label><br>
+        <textarea id="mensaje" name="mensaje" required></textarea><br><br>
+        <label for="destinatario">Destinatario:</label><br>
+        <input type="email" id="destinatario" name="destinatario" required><br><br>
+        <label for="adjuntos">Adjuntos:</label><br>
+        <input type="file" id="adjuntos" name="adjuntos"><br><br>
+        <button type="submit">Enviar Correo</button>
+    </form>
+</body>
+</html>
+
+{% endblock %}

@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.login_views, name='index'),
     path('home/', views.home, name='home'),
     path('cerrar_sesion/', views.cerrar_sesion, name='cerrar_sesion'),
+    path('enviar_correo/', views.enviar_correo, name='enviar_correo'),
     
     #-----------------------------------Empleado-----------------------------------
     path('empleado/empleado.html/', views.empleado, name='empleado'),
@@ -35,6 +36,7 @@ urlpatterns = [
     path('registroFlujo/', views.registroFlujo, name='registroFlujo'),
     path('editarFlujo/<idComprovante>/', views.editarFlujo, name='editarFlujo'),
     path('flujoInventario/registrarCorte.html/', views.registrarCorte, name='registrarCorte'),
+    path('eliminarFlujo/<idComprovante>/', views.eliminarFlujo, name='eliminarFlujo'),
     
     #-----------------------------------MateriaPrima-----------------------------------
     path('materiaPrima/materiaPrima.html/', views.materiaPrima, name='materiaPrima'),
@@ -50,9 +52,11 @@ urlpatterns = [
     path('devolucion/devolucion.html/', views.devolucion, name='devolucion'),
     path('registrarDevolucion/', views.registrarDevolucion, name='registrarDevolucion'),
     path('editarDevolucion/<idDevolucion>/', views.editarDevolucion, name='editarDevolucion'),
+    path('eliminarDevolucion/<idDevolucion>/', views.eliminarDevolucion, name='eliminarDevolucion'),
     
     #-----------------------------------Ventas-----------------------------------
     path('ventas/ventas.html/', views.ventas, name='ventas'),
     path('registrarVenta/', views.registrarVenta, name='registrarVenta'),
     path('editarVenta/<idComprovante>/', views.editarVenta, name='editarVenta'),
+    path('eliminarVenta/<idComprovante>/', views.eliminarVenta, name='eliminarVenta'),
 ]

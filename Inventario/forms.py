@@ -3,22 +3,23 @@ from django.forms import inlineformset_factory
 from crispy_forms.helper import FormHelper
 from django.forms import DateInput
 from .models import *
+from django.contrib.auth.models import User
 
 #----------------------------------Empleados----------------------------------
 class RegistroEmpleadoForm(forms.ModelForm):
     documento = forms.IntegerField(label='Documento de identidad')
     nombres = forms.CharField(label='Nombres', max_length=50)
     apellidos = forms.CharField(label='Apellidos', max_length=50)
-    direccion = forms.CharField(label='Direccion de recidencia', max_length=50)
-    correo = forms.EmailField(label='Correo electronico', max_length=50)
+    direccion = forms.CharField(label='Dirección de residencia', max_length=50)
+    correo = forms.EmailField(label='Correo electrónico', max_length=50)
     celular = forms.IntegerField(label='No. de contacto')
-    fechaNac = forms.DateField(label='Fecha de Nacimiento', widget=DateInput(attrs={'type': 'date'}))
-    ciudadPersona = forms.ModelChoiceField(queryset=Ciudad.objects.all(), label='Ciudad de recidencia', required=False)
-    sexo = forms.ChoiceField(choices=Personas.sexos, label='Genero')
-    contraseña = forms.CharField(label='contraseña', max_length=30)
+    fechaNac = forms.DateField(label='Fecha de Nacimiento', widget=forms.DateInput(attrs={'type': 'date'}))
+    ciudadPersona = forms.ModelChoiceField(queryset=Ciudad.objects.all(), label='Ciudad de residencia', required=False)
+    sexo = forms.ChoiceField(choices=Personas.sexos, label='Género')
+    contraseña = forms.CharField(label='Contraseña', max_length=30, widget=forms.PasswordInput)
 
-    arlEmpleado = forms.ModelChoiceField(queryset=Arl.objects.all(), label='Arl del empleado', required=False)
-    epsEmpleado = forms.ModelChoiceField(queryset=Eps.objects.all(), label='Eps del empleado', required=False)
+    arlEmpleado = forms.ModelChoiceField(queryset=Arl.objects.all(), label='ARL del empleado', required=False)
+    epsEmpleado = forms.ModelChoiceField(queryset=Eps.objects.all(), label='EPS del empleado', required=False)
     cargo = forms.ModelChoiceField(queryset=Cargo.objects.all(), label='Cargo del empleado', required=False)
 
     nueva_arl = forms.CharField(label='Nueva ARL', required=False)
@@ -27,7 +28,7 @@ class RegistroEmpleadoForm(forms.ModelForm):
 
     class Meta:
         model = Empleado
-        fields = ['documento', 'nombres', 'apellidos', 'direccion', 'correo', 'celular', 'fechaNac', 'ciudadPersona', 'sexo', 'arlEmpleado', 'epsEmpleado', 'cargo']
+        fields = ['documento', 'nombres', 'apellidos', 'direccion', 'correo', 'celular', 'fechaNac', 'ciudadPersona', 'sexo', 'arlEmpleado', 'epsEmpleado', 'cargo', 'contraseña']
 
     def save(self, commit=True):
         persona = Personas.objects.create(
@@ -56,8 +57,14 @@ class RegistroEmpleadoForm(forms.ModelForm):
             docEmpleado=persona,
             arlEmpleado=arl_empleado,
             epsEmpleado=eps_empleado,
-            cargo=cargo_empleado
+            cargo=cargo_empleado,
+            contraseña=self.cleaned_data['contraseña']  # Guardar la contraseña sin encriptar
         )
+
+        username = self.cleaned_data['documento']
+        if not User.objects.filter(username=username).exists():
+            user = User.objects.create_user(username=username, password=self.cleaned_data['contraseña'])
+            user.save()
         return empleado
 
 class EditarEmpleadoForm(forms.ModelForm):
@@ -382,7 +389,7 @@ class FlujoInventarioForm(forms.ModelForm):
     flujoSatelite = forms.ModelChoiceField(queryset=Satelites.objects.all(), label='Satélite', required=False)
     flujoProducto = forms.ModelChoiceField(queryset=Producto.objects.all(), label='Producto', required=False)
     flujoCorte = forms.ModelChoiceField(queryset=Corte.objects.all(), label='Corte', required=False)
-    insumos = forms.ModelMultipleChoiceField(queryset=MateriaPrima.objects.all(), label='Insumos', required=False)
+    insumos = forms.ModelMultipleChoiceField(queryset=MateriaPrima.objects.all(), label='Insumos', required=False, widget=forms.CheckboxSelectMultiple)
     flujo = forms.ChoiceField(choices=FlujoInventario.flujos, label='Tipo de flujo', required=False)
     cantidadFlujo = forms.FloatField(label='Cantidad', required=False)
 
@@ -507,5 +514,4 @@ class VentasForm(forms.ModelForm):
     class Meta:
         model = FlujoInventario
         fields = ['docEmpleado', 'flujoCliente', 'flujoProducto', 'flujo', 'cantidadFlujo']
-    
     

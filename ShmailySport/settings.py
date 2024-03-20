@@ -12,10 +12,17 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from django.core.mail.backends.smtp import EmailBackend
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Aquí coloca el servidor SMTP que utilizarás
+EMAIL_PORT = 587 
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'shmailysport8@gmail.com'  # Tu dirección de correo electrónico
+EMAIL_HOST_PASSWORD = 'o i a b g l k l x z k e o x o g'  # La contraseña de tu correo electrónico
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/

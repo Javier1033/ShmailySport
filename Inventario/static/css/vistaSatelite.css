@@ -1,66 +1,59 @@
 body {
-    color: black;
     font-family: Arial, sans-serif;
-    text-align: center; /* Centra todo el contenido del cuerpo */
+    background-color: #f2f2f2; /* Color de fondo claro */
 }
 
 h1 {
-    font-size: 2em;
-    font-weight: bold;
+    text-align: center;
+    color: #333; /* Color del encabezado */
+}
+
+table {
+    margin: 0 auto; /* Centrar la tabla horizontalmente */
+    border-collapse: collapse;
+    width: 80%; /* Ancho de la tabla */
+    background-color: #fff; /* Color de fondo de la tabla */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Borde inferior */
+    color: #333; /* Color de texto */
 }
 
 form {
-    margin: 0 auto;
-    max-width: 500px;
-    text-align: left; /* Alinea el texto del formulario a la izquierda */
-}
-
-label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-select,
-button {
-    padding: 10px;
+    text-align: center;
     margin-bottom: 20px;
-    width: 100%;
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: transparent;
-    color: black;
-}
-
-select {
-    background-color: transparent;
 }
 
 button {
-    background-color: black;
-    color: gold;
+    background-color: #444; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none;
+    padding: 10px 20px;
     cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: darkgrey;
+    background-color: #555; /* Cambiar el color de fondo al pasar el mouse */
 }
 
 ul {
     list-style-type: none;
-    padding-left: 0;
+    padding: 0;
 }
 
 
-a {
-    color: black;
+.mark-entregado {
+    color: #007bff; /* Color del enlace */
     text-decoration: none;
+    margin-left: 10px;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
-a.mark-entregado {
-    color: green;
-    font-weight: bold;
+.mark-entregado:hover {
+    text-decoration: underline; /* Subrayar el enlace al pasar el mouse */
 }

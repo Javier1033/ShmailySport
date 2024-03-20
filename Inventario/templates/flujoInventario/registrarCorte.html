@@ -1,6 +1,6 @@
 {% extends 'home.html' %}
-
 {% block content %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,17 +8,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edición de Clientes</title>
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <script>
+      function validateForm() {
+          var inputs = document.getElementById("salesForm").getElementsByTagName('input');
+          for(var i=0; i < inputs.length; i++) {
+              if(inputs[i].type == 'text' && inputs[i].value == '') {
+                  alert('Por favor, rellena todos los campos para seguir con el proceso de registro.');
+                  return false;
+              }
+          }
+          if(confirm('¿Estás seguro de que quieres registrar este corte?')) {
+              alert('Corte registrado con éxito.');
+              return true;
+          } else {
+              return false;
+          }
+      }
+  </script>
   </head>
   <body>
-    <h1>Registrar Nuevo Corte</h1>
-    <form method="POST">
-      {% csrf_token %}
-      <table>
-        {{ form.as_table }}
-      </table>
-      <button type="submit">Registrar Corte</button>
-      <a href="{% url 'registroFlujo' %}" class="btn btn-info">Volver</a>
-    </form>
+    <div class="container">
+      <h1>Registrar Nuevo Corte</h1>
+      <form id="salesForm" method="POST" onsubmit="return validateForm();">
+        {% csrf_token %}
+        <table>
+          {{ form.as_table }}
+        </table>
+        <input class="cbp-mc-submit btn btn-primary" type="submit" value="Registrar" />
+        <a href="{% url 'registroFlujo' %}" class="btn btn-info">Volver</a>
+      </form>
+    </div>
   </body>
 </html>
 

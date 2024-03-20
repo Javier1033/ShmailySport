@@ -37,7 +37,7 @@
                         <th>Flujo</th>
                         <th>Cantidad</th>
                         <th>Fecha</th>
-                        <th>Edicion</th>
+                        <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,7 +59,10 @@
                                 <td>{{ fli.flujo }}</td>
                                 <td>{{ fli.cantidadFlujo }}</td>
                                 <td>{{ fli.fechaFlujo }}</td>
-                                <td><a href="/editarFlujo/{{ fli.idComprovante }}" class="btn btn-info">Editar</a></td>
+                                <td>
+                                  <a href="/eliminarFlujo/{{ fli.idComprovante }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este flujo?')">Eliminar</a>
+                                  <a href="/editarFlujo/{{ fli.idComprovante }}" class="btn btn-info">Editar</a>
+                                </td>
                             </tr>
                     {% endfor %}
                 </tbody>

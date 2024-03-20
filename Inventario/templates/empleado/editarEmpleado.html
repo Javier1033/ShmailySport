@@ -1,5 +1,6 @@
 {% extends 'home.html' %}
 {% block content %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,16 +8,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edición de Empleados</title>
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
   </head>
   <body>
-    <h1>Editar Empleado</h1>
-    <form method="post">
-      {% csrf_token %}
-      <table>
-        {{ form.as_table }}
-      </table>
-      <input type="submit" class="btn btn-primary" value="Guardar cambios" />
-    </form>
+    <div class="container">
+      <h1>Editar Empleado</h1>
+      <form method="post">
+        {% csrf_token %}
+        <table>
+          {{ form.as_table }}
+        </table>
+        <input type="submit" class="btn btn-primary" value="Guardar cambios" />
+      </form>
+    </div>
   </body>
 </html>
 

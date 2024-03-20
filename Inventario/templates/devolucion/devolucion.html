@@ -52,7 +52,10 @@
                                     <td>{{ dev.motivo }}</td>
                                     <td>{{ dev.cantidadDevo }}</td>
                                     <td>{{ dev.fechaDevolucion }}</td>
-                                    <td><a href="/editarDevolucion/{{ dev.idDevolucion }}" class="btn btn-info">Editar</a></td>
+                                    <td>
+                                      <a href="/eliminarDevolucion/{{ dev.idDevolucion }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta devolucion?')">Eliminar</a>
+                                      <a href="/editarDevolucion/{{ dev.idDevolucion }}" class="btn btn-info">Editar</a>
+                                    </td>
                                 </tr>
                         {% endfor %}
                     </tbody>

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User, Group
 
 # Create your models here.
 
@@ -43,16 +44,16 @@ class MateriaPrima(models.Model):
     material = models.CharField(max_length=30)
     cantidadMaterial = models.FloatField(default=0.0)
     medidas = [
-        ('m','metros'),
-        ('k','kilos'),
-        ('u','unidades')
+        ('metros','Metros'),
+        ('kilos','Kilos'),
+        ('unidades','Unidades')
     ]
-    medida = models.CharField(max_length=1, choices=medidas, default='m')
+    medida = models.CharField(max_length=20, choices=medidas, default='metros')
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{0}, {1} en stock: {2} {3}"
-        return txt.format(self.idMaterial, self.material, self.cantidadMaterial, self.medida)
+        txt = "{0}, {1}"
+        return txt.format(self.idMaterial, self.material)
     
 class Producto(models.Model):
     idProducto = models.AutoField(primary_key=True)
@@ -61,8 +62,8 @@ class Producto(models.Model):
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{0}, {1} en stok: {2} unidades"
-        return txt.format(self.idProducto, self.producto, self.cantidadProducto)
+        txt = "{0}, {1}"
+        return txt.format(self.idProducto, self.producto)
 
 class Personas(models.Model):
     documento = models.PositiveIntegerField(primary_key=True)
@@ -123,12 +124,15 @@ class Empleado(models.Model):
     contraseña = models.CharField(max_length=30, default='')
 
     def __str__(self) -> str:
-        txt = "{0}, {1}, ({2}, {3})"
-        return txt.format(self.idEmpleado, self.docEmpleado.apellidos, self.arlEmpleado.arl, self.epsEmpleado.eps)
+        return f"{self.idEmpleado}, {self.docEmpleado.apellidos}, {self.arlEmpleado.arl}, {self.epsEmpleado.eps}"
     
     def save(self, *args, **kwargs):
         if not self.idEmpleado:  
-            self.contraseña = make_password(self.contraseña)  
+            self.contraseña = make_password(self.contraseña)
+            user = User.objects.create_user(username=self.docEmpleado.documento, password=self.contraseña)
+            group = Group.objects.get(name=self.cargo.cargo)  # Asegúrate de que el modelo Cargo tiene un campo llamado 'cargo' que contiene el nombre del cargo
+            user.groups.add(group)
+            user.save()
         super().save(*args, **kwargs)
     
 class Corte(models.Model):
@@ -177,6 +181,7 @@ class DetalleFlujoInventario(models.Model):
     flujo_inventario = models.ForeignKey(FlujoInventario, on_delete=models.CASCADE)
     materia_prima = models.ForeignKey(MateriaPrima, on_delete=models.CASCADE)
     cantidad = models.FloatField()
+    cantidad_insumo = models.FloatField(default=0)
     
 class Devoluciones(models.Model):
     idDevolucion = models.AutoField(primary_key=True)

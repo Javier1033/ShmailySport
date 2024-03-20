@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib import messages
+from django.contrib.auth import login, logout
 from django.contrib.auth.hashers import check_password
 from .forms import *
-
+from django.core.mail import EmailMessage
 
 # Create your views here.
 
@@ -11,57 +12,83 @@ from .forms import *
 def login_views(request):
     if request.method == 'POST':
         # Obtener los datos del formulario
-        doc_empleado = request.POST.get('documento')
+        docEmpleado = request.POST.get('documento')
+        contraseña = request.POST.get('contrasena')
 
-        if not doc_empleado.isdigit():
-            messages.error(request, "Credenciales incorrectas.")
-            return redirect('index')
-
-        contrasena = request.POST.get('contrasena')
-
-        # Buscar el empleado por el documento proporcionado
+        # Autenticar al usuario
         try:
-            empleado = Empleado.objects.get(docEmpleado=doc_empleado)
+            empleado = Empleado.objects.get(docEmpleado__documento=docEmpleado)
+            contraseña_empleado = empleado.contraseña
+            if check_password(contraseña, contraseña_empleado):
+                # Las contraseñas coinciden
+                user = User.objects.get(username=docEmpleado)
+                login(request, user)
+                return redirect('home')
+            else:
+                # Las contraseñas no coinciden
+                print("La autenticación ha fallado.")
+                messages.error(request, "Credenciales incorrectas.")
+                return redirect('index')
         except Empleado.DoesNotExist:
-            messages.error(request, "Empleado no encontrado.")
-            return redirect('index')
-
-        # Obtener la contraseña del cargo del empleado
-        contrasena_empleado = empleado.contraseña
-
-        # Verificar la contraseña
-        if check_password(contrasena, contrasena_empleado):
-            # Almacenar el documento del empleado en la sesión
-            request.session['documento'] = doc_empleado
-            return redirect('home')
-        else:
+            # Agregar mensaje de depuración
+            print("El empleado asociado al usuario autenticado no fue encontrado.")
             messages.error(request, "Credenciales incorrectas.")
             return redirect('index')
 
     # Renderizar el formulario de inicio de sesión
     return render(request, 'index.html')
 
+def cerrar_sesion(request):
+    # Cerrar la sesión del usuario
+    logout(request)
+    messages.info(request, "¡Sesión cerrada correctamente!")
+    return redirect('index')
+
 def home(request):
-    if 'documento' in request.session:
-        doc_empleado = request.session['documento']
+    if request.user.is_authenticated:
         try:
-            empleado = Empleado.objects.get(docEmpleado=doc_empleado)
+            empleado = Empleado.objects.get(docEmpleado=request.user.username)
             persona = empleado.docEmpleado
             nombre_completo = f"{persona.nombres} {persona.apellidos}"
             cargo_empleado = empleado.cargo.cargo
             return render(request, 'home.html', {'nombre_completo': nombre_completo, 'cargo_empleado': cargo_empleado})
         except Empleado.DoesNotExist:
+            # Agregar mensaje de depuración
+            print("El empleado asociado al usuario autenticado no fue encontrado.")
             messages.error(request, "No tienes permiso para acceder a este perfil.")
             return redirect('index')
     else:
         return redirect('index')
+    
+#-------------------------------------Correos-------------------------------------
+def enviar_correo(request):
+    if request.method == 'POST':
+        asunto = request.POST.get('asunto')
+        mensaje = request.POST.get('mensaje')
+        destinatarios_str = request.POST.get('destinatario')
+        destinatarios = [email.strip() for email in destinatarios_str.split(',')]
 
-def cerrar_sesion(request):
-    if 'documento' in request.session:
-        del request.session['documento']
-        messages.info(request, "¡Sesión cerrada correctamente!")
-    return redirect('index')
+        adjuntos = request.FILES.getlist('adjuntos')
 
+        try:
+            email = EmailMessage(
+                subject=asunto,
+                body=mensaje,
+                to=destinatarios
+            )
+
+            # Adjuntar archivos
+            for adjunto in adjuntos:
+                email.attach(adjunto.name, adjunto.read(), adjunto.content_type)
+
+            # Enviar correo electrónico
+            email.send()
+
+            return render(request, 'enviar_correo.html', {'mensaje': 'Correo enviado correctamente.'})
+        except Exception as e:
+            return render(request, 'enviar_correo.html', {'error': str(e)})
+
+    return render(request, 'enviar_correo.html')
 
 #-------------------------------------Empleado-------------------------------------
 def empleado(request):
@@ -221,13 +248,11 @@ def flujoInventario(request):
     material = MateriaPrima.objects.all()
     satelite = Satelites.objects.all()
     cortes = Corte.objects.all()
-    
-    if not messages.get_messages(request):
-        messages.success(request, 'Flujos Listados')
         
     return render(request, 'flujoInventario/FlujoInventario.html', {"flujoInventario": flujoInventario, "empleados": empleados, "proveedores": proveedores, "material": material, "satelite": satelite, "cortes": cortes})
 
 def registroFlujo(request):
+    insumos = MateriaPrima.objects.filter(activo=True)
     if request.method == 'POST':
         form = FlujoInventarioForm(request.POST)
         if form.is_valid():
@@ -264,7 +289,7 @@ def registroFlujo(request):
     else:
         form = FlujoInventarioForm()
 
-    return render(request, 'flujoInventario/registroFlujo.html', {'form': form})
+    return render(request, 'flujoInventario/registroFlujo.html', {'form': form, 'insumos': insumos})
 
 def editarFlujo(request, idComprovante):
     flujo = FlujoInventario.objects.get(idComprovante=idComprovante)
@@ -290,6 +315,12 @@ def registrarCorte(request):
         cortes_no_entregados = Corte.objects.filter(entregado=False)
         form = CorteForm(initial={'productoCorte': cortes_no_entregados})
     return render(request, 'flujoInventario/registrarCorte.html', {'form': form})
+
+def eliminarFlujo(request, idComprovante):
+    flujo = FlujoInventario.objects.get(idComprovante=idComprovante)
+    flujo.delete()
+
+    return redirect('flujoInventario')
 
 #-------------------------------------MateriaPrima-------------------------------------
 def materiaPrima(request):
@@ -436,6 +467,12 @@ def editarDevolucion(request, pk):
     
     return render(request, 'devolucion/editarDevolucion.html', {'form': form})
 
+def eliminarDevolucion(request, idDevolucion):
+    devolucion = Devoluciones.objects.get(idDevolucion=idDevolucion)
+    devolucion.delete()
+
+    return redirect('devolucion')
+
 #-------------------------------------Ventas-------------------------------------
 def ventas(request):
     ventas = FlujoInventario.objects.filter(flujo='venta')
@@ -481,3 +518,8 @@ def editarVenta(request, idComprovante):
         form = VentasForm(instance=venta)
     return render(request, 'ventas/editarVenta.html', {'form': form})
 
+def eliminarVenta(request, idComprovante):
+    venta = FlujoInventario.objects.get(idComprovante=idComprovante)
+    venta.delete()
+
+    return redirect('ventas')

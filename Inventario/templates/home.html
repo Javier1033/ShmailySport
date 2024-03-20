@@ -99,7 +99,6 @@
     <div class="main-menu-content">
       <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
 
-        {% if cargo_empleado == 'Gerente' or cargo_empleado == 'Administrador' %}
         <li class=" nav-item"><a href="#"><i class="icon-dropbox"></i><span class="menu-title">Flujo Inventario</span></a>
           <ul class="menu-content">
             <li><a href="{% url 'flujoInventario' %}" class="menu-item">Lista de Flujos</a></li>
@@ -164,46 +163,8 @@
         </li>
         <li class=" nav-item"><a href="#"><i class="icon-file-text2"></i><span class="menu-title">Reportes </span></a>
         </li>
-        <li class=" nav-item"><a href="#"><i class="icon-stats-dots"></i><span  class="menu-title">Gráficas</span></a>
+        <li class=" nav-item"><a href="{% url 'enviar_correo' %}"><i class="icon-stats-dots"></i><span  class="menu-title">Gráficas</span></a>
         </li>
-        <li class=" navigation-header"><span>Soporte</span>
-        </li>
-        <li class=" nav-item"><a href="#"><i class="icon-database2"></i><span  class="menu-title">Backup</span></a>
-        </li>
-        {% elif cargo_empleado == 'Vendedor' %}
-        <li class=" nav-item"><a href="#"><i class="icon-reload"></i><span  class="menu-title">Devoluciones</span></a>
-          <ul class="menu-content">
-            <li><a href="{% url 'devolucion' %}" class="menu-item">Lista de Devoluciones</a></li>
-            <li><a href="{% url 'registrarDevolucion' %}" class="menu-item">Registro de Devoluciones</a></li>
-          </ul>
-        </li>
-        <li class=" nav-item"><a href="#"><i class="icon-shopping-cart"></i><span class="menu-title">Ventas</span></a>
-          <ul class="menu-content">
-            <li><a href="{% url 'ventas' %}" class="menu-item">Lista de Ventas</a></li>
-            <li><a href="{% url 'registrarVenta' %}" class="menu-item">Realizar Venta</a></li>
-          </ul>
-        <li class=" nav-item"><a href="#"><i class="icon-product-hunt"></i><span class="menu-title">Productos</span></a>
-          <ul class="menu-content">
-            <li><a href="{% url 'producto' %}" class="menu-item">Lista de Productos</a></li>
-          </ul>
-        </li>
-
-        <li class=" navigation-header"><span>PERSONAL</span>
-        </li>
-        <li class=" nav-item"><a href="#"><i class="icon-user"></i><span class="menu-title">Clientes</span></a>
-          <ul class="menu-content">
-            <li><a href="{% url 'cliente' %}" class="menu-item">Lista de Clientes</a></li>
-            <li><a href="{% url 'registrarCliente' %}" class="menu-item">Registrar Cliente</a></li>
-          </ul>
-        </li>
-
-        <li class=" navigation-header"><span>Informes</span>
-        </li>
-        <li class=" nav-item"><a href="#"><i class="icon-file-text2"></i><span class="menu-title">Reportes </span></a>
-        </li>
-        <li class=" nav-item"><a href="#"><i class="icon-stats-dots"></i><span  class="menu-title">Gráficas</span></a>
-        </li>
-        {% endif %}
       </ul>
     </div>
   </div>

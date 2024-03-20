@@ -48,8 +48,17 @@
             <td>{{form.flujoCorte}}</td>
           </tr>
           <tr class="hidden corte-fields">
-            <td><label for="insumos" class="form-label">Insumos</label></td>
-            <td>{{form.insumos}}</td>
+            <td><label for="id_insumos" class="form-label">Insumos</label></td>
+            <td>
+                <div id="id_insumos" class="checkbox-list">
+                    {% for insumo in insumos %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="insumos" id="insumo_{{ insumo.id }}" value="{{ insumo.id }}">
+                            <label class="form-check-label" for="insumo_{{ insumo.idMaterial }}">{{ insumo.material }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </td>
           </tr>
           <tr class="hidden producto-fields">
             <td><label id="flujoProducto" for="flujoProducto" class="form-label">Producto</label></td>
