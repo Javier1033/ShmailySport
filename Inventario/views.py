@@ -404,11 +404,11 @@ def marcar_entregado(request, idCorte):
 def flujoInventario(request):
     if request.user.groups.filter(name__in=['Administrador', 'Gerente', 'JefeBodega']).exists():
         flujoInventario = FlujoInventario.objects.all()
-        empleados = Empleado.objects.all()
-        proveedores = Proveedor.objects.all()
-        material = MateriaPrima.objects.all()
-        satelite = Satelites.objects.all()
-        cortes = Corte.objects.all()
+        empleados = Empleado.objects.filter(activo=True)
+        proveedores = Proveedor.objects.filter(activo=True)
+        material = MateriaPrima.objects.filter(activo=True)
+        satelite = Satelites.objects.filter(activo=True)
+        cortes = Corte.objects.filter(entregado=False)
             
         return render(request, 'flujoInventario/FlujoInventario.html', {"flujoInventario": flujoInventario, "empleados": empleados, "proveedores": proveedores, "material": material, "satelite": satelite, "cortes": cortes})
     else:
@@ -606,11 +606,11 @@ def editarProducto(request, idProducto):
 def devolucion(request):
     if request.user.groups.filter(name__in=['Administrador', 'Gerente', 'auxiliar', 'JefeBodega']).exists():
         devolucion = Devoluciones.objects.all()
-        empleados = Empleado.objects.all()
-        proveedores = Proveedor.objects.all()
-        material = MateriaPrima.objects.all()
-        satelite = Satelites.objects.all()
-        producto = Producto.objects.all()
+        empleados = Empleado.objects.filter(activo=True)
+        proveedores = Proveedor.objects.filter(activo=True)
+        material = MateriaPrima.objects.filter(activo=True)
+        satelite = Satelites.objects.filter(activo=True)
+        producto = Producto.objects.filter(activo=True)
         
         return render(request, 'devolucion/devolucion.html', {"devolucion": devolucion, "empleados": empleados, "proveedores": proveedores, "material": material, "satelite": satelite, "producto": producto})
     else:
@@ -740,15 +740,16 @@ def registrarVenta(request):
             form = VentasForm(request.POST)
             if form.is_valid():
                 venta = form.save(commit=False)
-                venta.save()
-
-                # Verificar si el flujo es de tipo 'venta'
+                
+                # Restar la cantidad de la venta a la cantidad del producto si es un flujo de venta
                 if venta.flujo == 'venta':
-                    # Restar la cantidad de la venta a la cantidad del producto
                     producto = venta.flujoProducto
                     producto.cantidadProducto -= venta.cantidadFlujo
                     producto.save()
 
+                venta.save()
+
+                messages.success(request, "Venta registrada con éxito.")
                 return redirect('ventas')  # Cambia 'ventas' por la URL a la que quieres redirigir después de guardar la venta
         else:
             form = VentasForm()

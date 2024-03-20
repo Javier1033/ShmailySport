@@ -10,8 +10,8 @@ class Arl(models.Model):
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{0}, {1}"
-        return txt.format(self.idArl, self.arl)
+        txt = "{0}"
+        return txt.format(self.arl)
     
 class Eps(models.Model):
     idEps = models.AutoField(primary_key=True)
@@ -19,8 +19,8 @@ class Eps(models.Model):
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{0}, {1}"
-        return txt.format(self.idEps, self.eps)
+        txt = "{1}"
+        return txt.format(self.eps)
     
 class Ciudad(models.Model):
     idCiudad = models.AutoField(primary_key=True)
@@ -28,8 +28,8 @@ class Ciudad(models.Model):
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{0}, {1}"
-        return txt.format(self.idCiudad, self.ciudad)
+        txt = "{1}"
+        return txt.format(self.ciudad)
 
 class Cargo(models.Model):
     idCargo = models.AutoField(primary_key=True)
@@ -52,8 +52,8 @@ class MateriaPrima(models.Model):
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{0}, {1}"
-        return txt.format(self.idMaterial, self.material)
+        txt = "{1}"
+        return txt.format(self.material)
     
 class Producto(models.Model):
     idProducto = models.AutoField(primary_key=True)
@@ -62,8 +62,8 @@ class Producto(models.Model):
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{0}, {1}"
-        return txt.format(self.idProducto, self.producto)
+        txt = "{1}"
+        return txt.format(self.producto)
 
 class Personas(models.Model):
     documento = models.PositiveIntegerField(primary_key=True)
@@ -93,8 +93,8 @@ class Satelites(models.Model):
         return self.cortes.filter(entregado=False).exists()
 
     def __str__(self):
-        txt = "{0}, {1}"
-        return txt.format(self.idSatelite, self.docSatelite.apellidos)
+        txt = "{1}"
+        return txt.format(self.docSatelite.apellidos)
 
 class Proveedor(models.Model):
     idProveedor = models.AutoField(primary_key=True)
@@ -102,8 +102,8 @@ class Proveedor(models.Model):
     activo = models.BooleanField(default=True)
 
     def __str__(self):
-        txt = "{0}, {1}"
-        return txt.format(self.idProveedor, self.docProveedor.apellidos)
+        txt = "{1}"
+        return txt.format(self.docProveedor.apellidos)
 
 class Cliente(models.Model):
     idCliente = models.AutoField(primary_key=True)
@@ -111,8 +111,8 @@ class Cliente(models.Model):
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{0}, {1}"
-        return txt.format(self.idCliente, self.docCliente.apellidos)
+        txt = "{1}"
+        return txt.format(self.docCliente.apellidos)
 
 class Empleado(models.Model):
     idEmpleado = models.AutoField(primary_key=True)
@@ -124,7 +124,7 @@ class Empleado(models.Model):
     contraseña = models.CharField(max_length=30, default='')
 
     def __str__(self) -> str:
-        return f"{self.idEmpleado}, {self.docEmpleado.apellidos}, {self.arlEmpleado.arl}, {self.epsEmpleado.eps}"
+        return f"{self.docEmpleado.documento}, {self.docEmpleado.apellidos}, {self.cargo.cargo}"
     
     def save(self, *args, **kwargs):
         if not self.idEmpleado:  

@@ -350,7 +350,7 @@ class EditarClienteForm(forms.ModelForm):
 
 #----------------------------------SateliteInv----------------------------------
 class SateliteCortesForm(forms.Form):
-    satelite = forms.ModelChoiceField(queryset=Satelites.objects.all())
+    satelite = forms.ModelChoiceField(queryset=Satelites.objects.filter(activo=True))
     cortes = forms.ModelMultipleChoiceField(queryset=Corte.objects.none(), required=False)
     entregado = forms.BooleanField(required=False, label='¿Entregado?')
 
@@ -506,8 +506,8 @@ class VentasForm(forms.ModelForm):
         self.fields['docEmpleado'].queryset = Empleado.objects.filter(cargo__cargo__iexact='vendedor')
     
     docEmpleado = forms.ModelChoiceField(queryset=None, label='Vendedor')
-    flujoCliente = forms.ModelChoiceField(queryset=Cliente.objects.all(), label='Cliente')
-    flujoProducto = forms.ModelChoiceField(queryset=Producto.objects.all(), label='Producto')
+    flujoCliente = forms.ModelChoiceField(queryset=Cliente.objects.filter(activo=True), label='Cliente')
+    flujoProducto = forms.ModelChoiceField(queryset=Producto.objects.filter(activo=True), label='Producto')
     flujo = forms.ChoiceField(choices=FlujoInventario.flujos, label='Tipo de flujo')
     cantidadFlujo = forms.FloatField(label='Cantidad')
 
@@ -515,6 +515,16 @@ class VentasForm(forms.ModelForm):
         model = FlujoInventario
         fields = ['docEmpleado', 'flujoCliente', 'flujoProducto', 'flujo', 'cantidadFlujo']
     
+    def clean(self):
+        cleaned_data = super().clean()
+        flujo = cleaned_data.get("flujo")
+        cantidad_flujo = cleaned_data.get("cantidadFlujo")
+        flujo_producto = cleaned_data.get("flujoProducto")
+
+        if flujo == 'venta':
+            if flujo_producto.cantidadProducto < cantidad_flujo or flujo_producto.cantidadProducto < 5:
+                raise forms.ValidationError(f"No hay suficiente cantidad de {flujo_producto} disponible para realizar la venta.")
+
 class ReporteForm(forms.Form):
     flujo = forms.ChoiceField(choices=[('', '--Selecciona un flujo--'), ('entrada', 'Entrada'), ('salida', 'Salida'), ('venta', 'Venta')], required=False)
     fecha_inicio = forms.DateField(required=False)
