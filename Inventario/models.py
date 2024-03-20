@@ -19,7 +19,7 @@ class Eps(models.Model):
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{1}"
+        txt = "{0}"
         return txt.format(self.eps)
     
 class Ciudad(models.Model):
@@ -28,7 +28,7 @@ class Ciudad(models.Model):
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{1}"
+        txt = "{0}"
         return txt.format(self.ciudad)
 
 class Cargo(models.Model):
@@ -52,7 +52,7 @@ class MateriaPrima(models.Model):
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{1}"
+        txt = "{0}"
         return txt.format(self.material)
     
 class Producto(models.Model):
@@ -62,7 +62,7 @@ class Producto(models.Model):
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{1}"
+        txt = "{0}"
         return txt.format(self.producto)
 
 class Personas(models.Model):
@@ -93,7 +93,7 @@ class Satelites(models.Model):
         return self.cortes.filter(entregado=False).exists()
 
     def __str__(self):
-        txt = "{1}"
+        txt = "{0}"
         return txt.format(self.docSatelite.apellidos)
 
 class Proveedor(models.Model):
@@ -102,7 +102,7 @@ class Proveedor(models.Model):
     activo = models.BooleanField(default=True)
 
     def __str__(self):
-        txt = "{1}"
+        txt = "{0}"
         return txt.format(self.docProveedor.apellidos)
 
 class Cliente(models.Model):
@@ -111,7 +111,7 @@ class Cliente(models.Model):
     activo = models.BooleanField(default=True)
     
     def __str__(self):
-        txt = "{1}"
+        txt = "{0}"
         return txt.format(self.docCliente.apellidos)
 
 class Empleado(models.Model):
