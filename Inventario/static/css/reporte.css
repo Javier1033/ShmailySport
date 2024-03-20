@@ -1,0 +1,53 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.styled-form {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #d1d1d1;
+    border-radius: 5px;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #f9f9f9, #e5e5e5);
+}
+
+.styled-form td {
+    padding: 10px;
+    text-align: left;
+}
+
+.styled-form label {
+    display: inline-block;
+    width: 120px;
+    font-weight: bold;
+}
+
+.styled-form input[type="date"],
+.styled-form select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.styled-form input[type="submit"] {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.styled-form input[type="submit"]:hover {
+    background-color: #555;
+}

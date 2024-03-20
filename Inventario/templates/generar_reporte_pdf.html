@@ -1,0 +1,38 @@
+{% extends 'home.html' %}
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" href="">
+<link rel="stylesheet" href="{% static 'css/reporte.css' %}">
+
+<div class="container">
+    <h2>Generar Reporte</h2>
+    <form method="GET" action="/generar_reporte">
+        <table class="styled-form">
+            <tr>
+                <td><label for="flujo">Flujo:</label></td>
+                <td>
+                    <select name="flujo" id="flujo">
+                        <option value="">--Selecciona un flujo--</option>
+                        <option value="entrada">Entrada</option>
+                        <option value="salida">Salida</option>
+                        <option value="venta">Venta</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="fecha_inicio">Fecha inicio:</label></td>
+                <td><input type="date" id="fecha_inicio" name="fecha_inicio"></td>
+            </tr>
+            <tr>
+                <td><label for="fecha_fin">Fecha fin:</label></td>
+                <td><input type="date" id="fecha_fin" name="fecha_fin"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Generar reporte"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+{% endblock %}

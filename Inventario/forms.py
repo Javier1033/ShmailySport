@@ -16,7 +16,7 @@ class RegistroEmpleadoForm(forms.ModelForm):
     fechaNac = forms.DateField(label='Fecha de Nacimiento', widget=forms.DateInput(attrs={'type': 'date'}))
     ciudadPersona = forms.ModelChoiceField(queryset=Ciudad.objects.all(), label='Ciudad de residencia', required=False)
     sexo = forms.ChoiceField(choices=Personas.sexos, label='Género')
-    contraseña = forms.CharField(label='Contraseña', max_length=30, widget=forms.PasswordInput)
+    contraseña = forms.CharField(label='Contraseña', max_length=30, min_length=8, widget=forms.PasswordInput,)
 
     arlEmpleado = forms.ModelChoiceField(queryset=Arl.objects.all(), label='ARL del empleado', required=False)
     epsEmpleado = forms.ModelChoiceField(queryset=Eps.objects.all(), label='EPS del empleado', required=False)
@@ -514,4 +514,10 @@ class VentasForm(forms.ModelForm):
     class Meta:
         model = FlujoInventario
         fields = ['docEmpleado', 'flujoCliente', 'flujoProducto', 'flujo', 'cantidadFlujo']
+    
+class ReporteForm(forms.Form):
+    flujo = forms.ChoiceField(choices=[('', '--Selecciona un flujo--'), ('entrada', 'Entrada'), ('salida', 'Salida'), ('venta', 'Venta')], required=False)
+    fecha_inicio = forms.DateField(required=False)
+    fecha_fin = forms.DateField(required=False)
+    
     
