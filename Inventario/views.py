@@ -410,7 +410,7 @@ def flujoInventario(request):
         satelite = Satelites.objects.filter(activo=True)
         cortes = Corte.objects.filter(entregado=False)
             
-        return render(request, 'flujoInventario/FlujoInventario.html', {"flujoInventario": flujoInventario, "empleados": empleados, "proveedores": proveedores, "material": material, "satelite": satelite, "cortes": cortes})
+        return render(request, 'flujoInventario/flujoInventario.html', {"flujoInventario": flujoInventario, "empleados": empleados, "proveedores": proveedores, "material": material, "satelite": satelite, "cortes": cortes})
     else:
         # Si el usuario no tiene permisos, mostrar un mensaje de error y redirigirlo a otra página
         messages.error(request, "No tienes permiso para acceder a esta página.")
